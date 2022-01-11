@@ -3,71 +3,33 @@ const db = require('../db')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
 const axios = require('axios');
-const { validate } = require('../db');
 
 const SALT_ROUNDS = 5;
 
-const User = db.define('user', {
-  isAdmin: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false,
-  },
-  username: {
-    type: Sequelize.STRING,
-    unique: true,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
-  },
-  password: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
-  },
+const Guest = db.define('guest', {
   email: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      isEmail: true,
-      notEmpty: true,
-    },
-  },
-  address: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
-  },
-  phone: { // focus later, INT vs STRING?
-    type: Sequelize.STRING,
-  },
-  birthday: { // add coupons!?!
-    type: Sequelize.DATEONLY,
-  },
+
+  }
 })
 
-module.exports = User
+module.exports = Guest
 
 /**
  * instanceMethods
  */
-User.prototype.correctPassword = function(candidatePwd) {
+Guest.prototype.correctPassword = function(candidatePwd) {
   //we need to compare the plain version to an encrypted version of the password
   return bcrypt.compare(candidatePwd, this.password);
 }
 
-User.prototype.generateToken = function() {
+Guest.prototype.generateToken = function() {
   return jwt.sign({id: this.id}, process.env.JWT)
 }
 
 /**
  * classMethods
  */
-User.authenticate = async function({ username, password }){
+Guest.authenticate = async function({ username, password }){
     const user = await this.findOne({where: { username }})
     if (!user || !(await user.correctPassword(password))) {
       const error = Error('Incorrect username/password');
@@ -77,10 +39,10 @@ User.authenticate = async function({ username, password }){
     return user.generateToken();
 };
 
-User.findByToken = async function(token) {
+Guest.findByToken = async function(token) {
   try {
     const {id} = await jwt.verify(token, process.env.JWT)
-    const user = User.findByPk(id)
+    const user = Guest.findByPk(id)
     if (!user) {
       throw 'nooo'
     }
@@ -102,6 +64,6 @@ const hashPassword = async(user) => {
   }
 }
 
-User.beforeCreate(hashPassword)
-User.beforeUpdate(hashPassword)
-User.beforeBulkCreate(users => Promise.all(users.map(hashPassword)))
+Guest.beforeCreate(hashPassword)
+Guest.beforeUpdate(hashPassword)
+Guest.beforeBulkCreate(users => Promise.all(users.map(hashPassword)))
