@@ -5,6 +5,7 @@ import { Login, Signup } from './components/AuthForm';
 import Home from './components/Home';
 import Products from './components/Products'
 import SingleProduct from './components/SingleProduct'
+import Account from './components/Account'
 import {me} from './store'
 
 const Routes = () => {
@@ -20,6 +21,7 @@ const Routes = () => {
       {isLoggedIn ? (
         <Switch>
           <Route path="/home" component={Home} />
+          <Route path="/account" component={Account} />
         </Switch>
       ) : (
         <Switch>
