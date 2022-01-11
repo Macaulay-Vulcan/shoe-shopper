@@ -6,10 +6,26 @@ const axios = require('axios');
 
 const SALT_ROUNDS = 5;
 
-const Guest = db.define('guest', {
-  email: {
-
-  }
+const Guest = db.define('guest', { // columns set up prior to guest checkout, what we need when the guest checks out
+  email: { // validation are checked only when a guest checks out
+    type: Sequelize.STRING,
+    allowNull: false,
+    unique: true,
+    validate: {
+      isEmail: true,
+      notEmpty: true,
+    },
+  },
+  address: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
+  phone: { // focus later, INT vs STRING?
+    type: Sequelize.STRING,
+  },
 })
 
 module.exports = Guest
