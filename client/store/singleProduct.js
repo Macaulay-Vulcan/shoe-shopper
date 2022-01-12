@@ -8,8 +8,16 @@ export const fetchSingleProduct = (productId) => {
     return async (dispatch) => {
         try {
             // const { data: product } = await axios.get(`/api/products/${productId}`);
-            const product = {id: 1, description: 'item 1', price: 105, imageUrl: ''};
-            dispatch(setSingleProduct(product));        
+            const product = {
+              description: 'description...',
+              type: 'type',
+              brand: 'brand',
+              image: 'https://www.ariadellcorta.com/wp-content/uploads/2017/04/Photo-Image-Coming-Soon-Icon-1.jpg',
+              color: 'color',
+              sizes: ['1', '2', '3'],
+              price: '12345', // in cents
+            };
+            dispatch(setSingleProduct(product));
         } catch (error) {
             console.log(error);
         }
