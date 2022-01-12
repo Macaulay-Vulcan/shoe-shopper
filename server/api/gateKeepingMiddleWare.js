@@ -1,6 +1,5 @@
 /*
-stores all functions that act as middleware between
-request and response and use as we see fit
+Middleware between request  & response
 */
 
 const {
@@ -19,15 +18,12 @@ const requireToken = async (req, res, next) => {
 
 const isAdmin = (req, res, next) => {
   if (!req.user.isAdmin) {
-    return res
-      .status(403)
-      .send('Must be an administrator to view this page!');
-  } else {
-    next();
+    return res.status(403).send('Must be an administrator');
   }
+  next();
 };
-module,
-  (exports = {
-    requireToken,
-    isAdmin,
-  });
+
+module.exports = {
+  requireToken,
+  isAdmin,
+};
