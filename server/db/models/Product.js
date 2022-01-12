@@ -1,13 +1,11 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt');
-const axios = require('axios');
-
-const SALT_ROUNDS = 5;
 
 const Product = db.define('product', {
-  type: { // DECIDE UPON WHAT TYPES OF SHOES!
+  description: {
+    type: Sequelize.TEXT
+  },
+  type: { 
     type: Sequelize.STRING,
     defaultValue: 'other',
     validate: {
@@ -21,7 +19,7 @@ const Product = db.define('product', {
       isIn: [['Nike', 'Adidas', 'Reebok', 'other']]
     }
   },
-  image: { // revisit and work on extension/filename validation
+  image: { 
     type: Sequelize.STRING,
     defaultValue: 'https://www.ariadellcorta.com/wp-content/uploads/2017/04/Photo-Image-Coming-Soon-Icon-1.jpg',
   },
@@ -32,11 +30,22 @@ const Product = db.define('product', {
       isIn: [['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'white', 'black', 'brown', 'multi']],
     }
   },
-  price: { // might need to check later
+  stock: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+    validate: {
+      min: 0
+    }
+  },
+  size: {
+    type: Sequelize.STRING,
+    defaultValue: '1',
+  },
+  unit_price: { // in cents
     type: Sequelize.INTEGER,
     validate: {
-      isFloat: true,
-    },
+      min: 0
+    }
   },
 })
 
