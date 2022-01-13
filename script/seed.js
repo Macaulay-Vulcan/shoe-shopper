@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Product },
+  models: { User, Product, ProductInfo },
 } = require('../server/db');
 
 /**
@@ -14,56 +14,102 @@ async function seed() {
   console.log('db synced!');
 
   // Creating Products
-  const productDescriptions = [
-    'Cool Shoe',
-    'Comfy Shoe',
-    'Stylish Shoe',
-  ];
-  const productTypes = ['basketball', 'runner', 'boot', 'other'];
-  const productBrands = ['Nike', 'Adidas', 'Reebok', 'other'];
-  const productColors = [
-    'red',
-    'orange',
-    'yellow',
-    'green',
-    'blue',
-    'purple',
-    'white',
-    'black',
-    'brown',
-    'multi',
-  ];
+  const productMap = {
+		Nike: [
+			{
+				Name: "Air Max",
+				Description: "Description for Air Max.",
+				Type: "runner",
+				Image: "",
+        UnitPrice: 150 * 100 // in cents
+			},
+			{
+				Name: "Jordans",
+				Description: "Description for Jordans.",
+				Type: "basketball",
+				Image: "",
+        UnitPrice: 200 * 100 // in cents
+			},
+		],
+		Adidas: [
+			{
+				Name: "Yeezy",
+				Description: "Description for Yeezy.",
+				Type: "runner",
+				Image: "",
+        UnitPrice: 300 * 100 // in cents
+			},
+			{
+				Name: "Ultra Boost",
+				Description: "Description for Ultra Boost.",
+				Type: "runner",
+				Image: "",
+        UnitPrice: 160 * 100 // in cents
+			},
+		],
+		Reebok: [
+			{
+				Name: "Classic",
+				Description: "Description for Classic.",
+				Type: "lifestyle",
+				Image: "",
+        UnitPrice: 120 * 100 // in cents
+			},
+			{
+				Name: "Nano X",
+				Description: "Description for Nano X.",
+				Type: "runner",
+				Image: "",
+        UnitPrice: 130 * 100 // in cents
+			},
+		],
+	};
+
+  const productBrands = Object.keys(productMap); // ['Nike', 'Adidas', 'Reebok']
+  let instancesInProduct = 0;
+
+  for (let i = 0; i < productBrands.length; i++) {
+    const thisBrand = productBrands[i];
+    for (let j = 0; j < productMap[thisBrand].length; j++) {
+      const thisShoe = productMap[thisBrand][j];
+      let product = {
+        brand: thisBrand,
+        name: thisShoe.Name,
+        description: thisShoe.Description,
+        type: thisShoe.Type,
+        unit_price: thisShoe.UnitPrice,
+      };
+      await Product.create(product);
+      instancesInProduct++;
+    }
+  }
+
+  // Creating ProductInfos
+  const productColors = ['black', 'white', 'multi'];
   const productSize = ['7', '7.5', '8', '8.5', '9', '10'];
 
-  for (let i = 0; i < 51; i++) {
-    let product = {
-      description:
-        productDescriptions[
-          Math.floor(Math.random() * productDescriptions.length)
-        ],
-      type: productTypes[
-        Math.floor(Math.random() * productTypes.length)
-      ],
-      brand:
-        productBrands[
-          Math.floor(Math.random() * productBrands.length)
-        ],
-      color:
-        productColors[
-          Math.floor(Math.random() * productColors.length)
-        ],
+  for (let i = 0; i < 100; i++) {
+    let testProductInfo = {
+      size: productSize[Math.floor(Math.random() * productSize.length)],
+      color: productColors[Math.floor(Math.random() * productColors.length)],
+      productId: Math.ceil(Math.random() * instancesInProduct)
+    }
+    let productInfo = {
       stock: 1,
-      size: productSize[
-        Math.floor(Math.random() * productSize.length)
-      ],
-      unit_price: 100 * Math.floor(Math.random() * (200 - 50) + 50),
-    };
+      size: testProductInfo.size,
+      color: testProductInfo.color,
+      productId: testProductInfo.productId
+    }
 
-    await Product.create(product);
+    const instance = await ProductInfo.findOne({ where: testProductInfo });
+    if (instance) { // already exists
+      await instance.update({ stock: instance.stock + 1 })
+    } else {
+      await ProductInfo.create(productInfo);
+    }
   }
 
   // Creating Users
-
   const users = await Promise.all([
     User.create({
       username: 'cody',
