@@ -2,6 +2,14 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 
 const Product = db.define('product', {
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    unique: true,
+    validate: {
+      notEmpty: true
+    },
+  },
   description: {
     type: Sequelize.TEXT,
   },
@@ -43,17 +51,6 @@ const Product = db.define('product', {
         ],
       ],
     },
-  },
-  stock: {
-    type: Sequelize.INTEGER,
-    defaultValue: 0,
-    validate: {
-      min: 0,
-    },
-  },
-  size: {
-    type: Sequelize.STRING,
-    defaultValue: '1',
   },
   unit_price: {
     // in cents
