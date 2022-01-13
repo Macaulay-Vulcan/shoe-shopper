@@ -63,19 +63,52 @@ async function seed() {
   }
 
   // Creating Users
-  // const users = await Promise.all([
-  //   User.create({ username: 'cody', password: '123' }),
-  //   User.create({ username: 'murphy', password: '123' }),
-  // ]);
 
-  // console.log(`seeded ${users.length} users`);
-  // console.log(`seeded successfully`);
-  // return {
-  //   users: {
-  //     cody: users[0],
-  //     murphy: users[1],
-  //   },
-  // };
+  const users = await Promise.all([
+    User.create({
+      username: 'cody',
+      password: '111',
+      email: `cody@gmail.com`,
+      address: `123 Lane Street NewYork, NY 11100`,
+      phone: `111-111-1111`,
+    }),
+
+    User.create({
+      isAdmin: true,
+      username: 'Johan',
+      password: '222',
+      email: `johan@gmail.com`,
+      address: `222 Main Street New York, NY 30000`,
+      phone: `222-222-2222`,
+    }),
+
+    User.create({
+      isAdmin: true,
+      username: 'Luke',
+      password: '333',
+      email: `luke@gmail.com`,
+      address: `333 Main Street New York, NY 20000`,
+      phone: `333-333-3333`,
+    }),
+
+    User.create({
+      isAdmin: true,
+      username: 'blaine',
+      password: '444',
+      email: `blaine@gmail.com`,
+      address: `444 Left Street New York, NY 50000`,
+      phone: `444-444-4444`,
+    }),
+  ]);
+
+  console.log(`seeded ${users.length} users`);
+  console.log(`seeded successfully`);
+  return {
+    users: {
+      cody: users[0],
+      murphy: users[1],
+    },
+  };
 }
 
 /*
