@@ -23,7 +23,6 @@ const Product = db.define('product', {
   brand: {
     type: Sequelize.STRING,
     allowNull: false,
-    unique: true,
     validate: {
       notEmpty: true
     },
@@ -32,26 +31,6 @@ const Product = db.define('product', {
     type: Sequelize.STRING,
     defaultValue:
       'https://www.ariadellcorta.com/wp-content/uploads/2017/04/Photo-Image-Coming-Soon-Icon-1.jpg',
-  },
-  color: {
-    type: Sequelize.STRING,
-    defaultValue: 'multi',
-    validate: {
-      isIn: [
-        [
-          'red',
-          'orange',
-          'yellow',
-          'green',
-          'blue',
-          'purple',
-          'white',
-          'black',
-          'brown',
-          'multi',
-        ],
-      ],
-    },
   },
   unit_price: {
     // in cents

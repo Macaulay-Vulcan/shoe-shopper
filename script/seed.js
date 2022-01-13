@@ -66,26 +66,50 @@ async function seed() {
 	};
 
   const productBrands = Object.keys(productMap); // ['Nike', 'Adidas', 'Reebok']
-  const productColors = ['black', 'white', 'multi', ];
-  // const productSize = ['7', '7.5', '8', '8.5', '9', '10'];
+  let instancesInProduct = 0;
 
-  for (let i = 0; i < 51; i++) {
-    let thisBrand = productBrands[Math.floor(Math.random() * productBrands.length)]
-    let thisShoe = productMap[thisBrand][Math.floor(Math.random() * productMap[thisBrand].length)]
-    let product = {
-      brand: thisBrand,
-      name: thisShoe.Name,
-      description: thisShoe.Description,
-      type: thisShoe.Type,
-      unit_price: thisShoe.UnitPrice,
+  for (let i = 0; i < productBrands.length; i++) {
+    const thisBrand = productBrands[i];
+    for (let j = 0; j < productMap[thisBrand].length; j++) {
+      const thisShoe = productMap[thisBrand][j];
+      let product = {
+        brand: thisBrand,
+        name: thisShoe.Name,
+        description: thisShoe.Description,
+        type: thisShoe.Type,
+        unit_price: thisShoe.UnitPrice,
+      };
+      await Product.create(product);
+      instancesInProduct++;
+    }
+  }
+
+  // Creating ProductInfos
+  const productColors = ['black', 'white', 'multi'];
+  const productSize = ['7', '7.5', '8', '8.5', '9', '10'];
+
+  for (let i = 0; i < 100; i++) {
+    let testProductInfo = {
+      size: productSize[Math.floor(Math.random() * productSize.length)],
       color: productColors[Math.floor(Math.random() * productColors.length)],
-    };
+      productId: Math.ceil(Math.random() * instancesInProduct)
+    }
+    let productInfo = {
+      stock: 1,
+      size: testProductInfo.size,
+      color: testProductInfo.color,
+      productId: testProductInfo.productId
+    }
 
-    await Product.create(product);
+    const instance = await ProductInfo.findOne({ where: testProductInfo });
+    if (instance) { // already exists
+      await instance.update({ stock: instance.stock + 1 })
+    } else {
+      await ProductInfo.create(productInfo);
+    }
   }
 
   // Creating Users
-
   const users = await Promise.all([
     User.create({
       username: 'cody',
