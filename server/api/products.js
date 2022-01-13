@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const Sequelize = require('sequelize');
 const {
   models: { Product },
 } = require('../db');
@@ -15,8 +16,18 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const product = await Product.findByPk(req.params.id);
-    res.json(product);
+    const product = await Product.findByPk(req.params.id)
+    const singleProductView = await Product.findAll({
+      where: {
+        color: product.color // product.name later
+      }
+    })
+    // const singleProductView = await Product.findByPk(req.params.id, {
+    //   attributes: {
+    //     include: [Sequelize.literal(`(SELECT DISTINCT size FROM Product WHERE Product.color = ${product.color})`)]
+    //   }
+    // });
+    res.json(singleProductView);
   } catch (error) {
     next(error);
   }
