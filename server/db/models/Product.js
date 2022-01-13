@@ -17,14 +17,15 @@ const Product = db.define('product', {
     type: Sequelize.STRING,
     defaultValue: 'other',
     validate: {
-      isIn: [['basketball', 'runner', 'boot', 'other']],
+      isIn: [['basketball', 'runner', 'boot', 'lifestyle', 'other']],
     },
   },
   brand: {
     type: Sequelize.STRING,
-    defaultValue: 'other',
+    allowNull: false,
+    unique: true,
     validate: {
-      isIn: [['Nike', 'Adidas', 'Reebok', 'other']],
+      notEmpty: true
     },
   },
   image: {
