@@ -7,14 +7,17 @@ const setProducts = (products) => ({ type: SET_PRODUCTS, products });
 export const fetchProducts = () => {
   return async (dispatch) => {
     try {
-      // const { data: products } = await axios.get('/api/products');
-      const products = [
+      const { data: products } = await axios.get('/api/products');
+      console.log('THIS IS PRODUCTS', products);
+      const sampleProducts = [
         {
           id: 1,
-
-          description: 'item 1',
-          price: 100,
-          imageUrl: '',
+          name: 'Sample Shoe',
+          description: ' Sample Description',
+          type: 'Sample Type',
+          brand: 'Sample Brand',
+          image: '',
+          unit_price: 500,
         },
       ];
       dispatch(setProducts(products));
