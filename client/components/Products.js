@@ -20,15 +20,12 @@ const Products = () => {
       {products.map((prod) => (
         <div key={prod.id}>
           <h2>
-            <Link to={`/products/${prod.id}`}>
-              {' '}
-              {prod.name || 'Product Name not available yet!'}{' '}
-            </Link>
+            <Link to={`/products/${prod.id}`}>{prod.name}</Link>
           </h2>
           <h3>{prod.brand}</h3>
-          <img src={prod.imageUrl} />
+          <img src={prod.image} />
           <h3>{prod.description}</h3>
-          <h4>{`$${prod.price}`}</h4>
+          <h4>{`$${prod.unit_price}`}</h4>
         </div>
       ))}
     </div>
