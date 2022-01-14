@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Product, ProductInfo },
+  models: { User, Product, ProductInfo, Order, OrderInfo },
 } = require('../server/db');
 
 /**
@@ -147,14 +147,26 @@ async function seed() {
     }),
   ]);
 
-  console.log(`seeded ${users.length} users`);
-  console.log(`seeded successfully`);
-  return {
-    users: {
-      cody: users[0],
-      murphy: users[1],
-    },
-  };
+  // Seeding Order + OrderInfo
+  const orderInstance = await Order.create({
+    userId: 1,
+    isActive: true
+  })
+
+  await OrderInfo.create({
+    orderId: orderInstance.id,
+    productInfoId: 1,
+    quantity: 1,
+    total_price: 100 * 100 
+  })
+
+  await OrderInfo.create({
+    orderId: orderInstance.id,
+    productInfoId: 2,
+    quantity: 2,
+    total_price: 150 * 100 
+  })
+
 }
 
 /*
