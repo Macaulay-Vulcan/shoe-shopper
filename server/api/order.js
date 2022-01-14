@@ -3,9 +3,9 @@ const Sequelize = require('sequelize');
 const { models: { Product, ProductInfo, User, Order, OrderInfo }} = require('../db');
 module.exports = router;
 
-router.get('/', async (req, res, next) => {
+router.get('/:userId', async (req, res, next) => {
     try {
-        const { userId } = req.body;
+        const { userId } = req.params;
         const order = await Order.findOne({
             where: {
                 userId: userId,

@@ -20,7 +20,7 @@ const Navbar = () => {
             <a href="#" onClick={() => dispatch(logout())}>
               Logout
             </a>
-            <Link to="/home">Cart</Link>
+            <Link to="/order">Cart</Link>
           </div>
         ) : (
           <div>
@@ -29,7 +29,7 @@ const Navbar = () => {
             <Link to="/products">Products</Link>
             <Link to="/login">Login</Link>
             <Link to="/signup">Sign Up</Link>
-            <Link to="/home">Cart</Link>
+            <Link to="/order">Cart</Link>
           </div>
         )}
       </nav>
