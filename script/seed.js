@@ -149,7 +149,7 @@ async function seed() {
 
   // Seeding Order + OrderInfo
   const orderInstance = await Order.create({
-    userId: 1,
+    userId: 4,
     isActive: true
   })
 

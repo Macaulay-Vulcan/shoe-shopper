@@ -6,10 +6,12 @@ import Home from './components/Home';
 import Products from './components/Products'
 import SingleProduct from './components/SingleProduct'
 import Account from './components/Account'
+import Cart from './components/Cart'
 import {me} from './store'
 
 const Routes = () => {
   const isLoggedIn = useSelector(state => !!state.auth.id);
+  const userId = useSelector(state => state.auth.id);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,6 +34,7 @@ const Routes = () => {
       )}
       <Route exact path="/products" component={Products} />
       <Route path="/products/:productId" component={SingleProduct} />
+      <Route path="/order" component={() => <Cart userId={userId}/>} />
     </div>
   )
 }
