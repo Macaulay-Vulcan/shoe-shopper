@@ -16,18 +16,20 @@ const Products = () => {
   if (loading) return <div>Loading</div>;
   return (
     <div>
-      <h1>PRODUCTS IN STOCK : </h1>
-      {products.map((prod) => (
-        <div key={prod.id}>
-          <h2>
-            <Link to={`/products/${prod.id}`}>{prod.name}</Link>
-          </h2>
-          <h3>{prod.brand}</h3>
-          <img src={prod.image} />
-          <h3>{prod.description}</h3>
-          <h4>{`$${prod.unit_price}`}</h4>
-        </div>
-      ))}
+      <h3 className='products-title'>PRODUCTS IN STOCK</h3>
+      <div className='products-container'>
+        {products.map((prod) => (
+          <div key={prod.id} className='product-tile'>
+            <img src={prod.image} />
+            <h3>{prod.name}</h3>
+            <p>{prod.brand}</p>
+            <p className='price'>{`$${prod.unit_price}`}</p>
+            <Link to={`/products/${prod.id}`}>
+              <p><button>See Details</button></p>
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

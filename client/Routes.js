@@ -19,7 +19,7 @@ const Routes = () => {
   }, []);
 
   return (
-    <div>
+    <div className='content'>
       {isLoggedIn ? (
         <Switch>
           <Route path="/home" component={Home} />
