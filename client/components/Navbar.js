@@ -8,7 +8,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   
   return (
-    <div>
+    <div className='header'>
       <h1>Shoe-Shopper</h1>
       <nav>
         {isLoggedIn ? (
@@ -33,7 +33,6 @@ const Navbar = () => {
           </div>
         )}
       </nav>
-      <hr />
     </div>
 )}
 
