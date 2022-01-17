@@ -44,7 +44,7 @@ const SingleProduct = () => {
                   key={prod.id}
                   value={prod.id}
                 >
-                  {`Size: ${prod.size} Color: ${prod.color}`}
+                  {`Size: ${prod.size} / Color: ${prod.color}`}
                 </option>
             ))}
           </select>
