@@ -1,18 +1,16 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { setAuth, authenticate } from "../store";
-import auth from "../store/auth";
 
 const AuthForm = ({ name, displayName }) => {
+	const { auth } = useSelector((state) => state);
 	const { error } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
-  const history = useHistory();
 
 	useEffect(() => {
 		// clears out error message upon switching between login & signup
 		return () => {
-			if (auth.error) dispatch(setAuth({}));
+			dispatch(setAuth({ ...auth, error: "" }));
 		};
 	}, []);
 
@@ -28,7 +26,6 @@ const AuthForm = ({ name, displayName }) => {
 			const address = e.target.address.value;
 			dispatch(authenticate(username, password, formName, email, address));
 		}
-    history.push('/home');
 	};
 
 	return (
@@ -40,13 +37,13 @@ const AuthForm = ({ name, displayName }) => {
 					</label>
 					<input name="username" type="text" />
 				</div>
-				{name === "signup" && (
+				{name === "signup" && ( // display email & address fields only for signup
 					<div>
 						<div>
 							<label htmlFor="email">
 								<small>Email</small>
 							</label>
-							<input name="email" type="text" />
+							<input name="email" type="email" />
 						</div>
 						<div>
 							<label htmlFor="address">
