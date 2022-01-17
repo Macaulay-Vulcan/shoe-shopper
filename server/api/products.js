@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const Sequelize = require('sequelize');
-const { models: { Product, ProductInfo }} = require('../db');
+const {
+  models: { Product, ProductInfo },
+} = require('../db');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -15,12 +17,20 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id, {
-      attributes: ['id', 'name', 'description', 'type', 'brand', 'image', 'unit_price'],
+      attributes: [
+        'id',
+        'name',
+        'description',
+        'type',
+        'brand',
+        'image',
+        'unit_price',
+      ],
       include: {
         model: ProductInfo,
-        attributes: ['id', 'color', 'stock', 'size', 'productId']
-      }
-    })
+        attributes: ['id', 'color', 'stock', 'size', 'productId'],
+      },
+    });
     res.json(product);
   } catch (error) {
     next(error);
@@ -29,12 +39,18 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const { name, description, type, brand, image, unit_price } = req.body;
-    const [ newProduct, created ] = await Product.findOrCreate({
+    const { name, description, type, brand, image, unit_price } =
+      req.body;
+    const [newProduct, created] = await Product.findOrCreate({
       where: {
-        name, description, type, brand, image, unit_price
-      }
-    })
+        name,
+        description,
+        type,
+        brand,
+        image,
+        unit_price,
+      },
+    });
     res.json(newProduct).status(201);
   } catch (error) {
     next(error);
@@ -48,26 +64,39 @@ router.post('/:productId', async (req, res, next) => {
       color,
       stock,
       size,
-      productId: req.params.productId
-    })
+      productId: req.params.productId,
+    });
     res.json(newProductInfo).status(201);
   } catch (error) {
     next(error);
   }
-})
+});
 
 router.put('/:productId', async (req, res, next) => {
   try {
-    const productToBeUpdated = await Product.findByPk(req.params.productId);
+    const productToBeUpdated = await Product.findByPk(
+      req.params.productId,
+    );
     if (!productToBeUpdated) {
       const error = new Error('Product not found');
       error.status = 404;
       next(error);
     } else {
       await productToBeUpdated.update(req.body);
-      const updatedProduct = await Product.findByPk(req.params.productId, {
-        attributes: ['id', 'name', 'description', 'type', 'brand', 'image', 'unit_price']
-      })
+      const updatedProduct = await Product.findByPk(
+        req.params.productId,
+        {
+          attributes: [
+            'id',
+            'name',
+            'description',
+            'type',
+            'brand',
+            'image',
+            'unit_price',
+          ],
+        },
+      );
       res.json(updatedProduct).status(201);
     }
   } catch (error) {
@@ -75,9 +104,10 @@ router.put('/:productId', async (req, res, next) => {
   }
 });
 
-router.put('/:productId/:productInfoId', async (req, res, next) => {
-
-});
+router.put(
+  '/:productId/:productInfoId',
+  async (req, res, next) => {},
+);
 
 router.delete('/:id', async (req, res, next) => {
   try {
