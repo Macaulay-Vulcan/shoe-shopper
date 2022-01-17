@@ -48,8 +48,13 @@ export default function CartReducer(state = {}, action) {
   switch (action.type) {
     case SET_CART:
       return action.cart;
-    case ADD_TO_CART:
-      return { ...state, orderInfos: [...state.orderInfos, action.cartItem]};
+    case ADD_TO_CART: {
+      if (!state.orderInfos) {
+        return { ...state, orderInfos: [action.cartItem] };
+      } else {
+        return { ...state, orderInfos: [...state.orderInfos, action.cartItem] };
+      }
+    }
     default:
       return state;
   }
