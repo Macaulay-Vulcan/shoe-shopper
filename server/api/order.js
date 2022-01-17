@@ -69,8 +69,7 @@ router.post('/', async (req, res, next) => {
 
     const newCartLineItem = await OrderInfo.create({
       quantity: 1,
-      size: req.body.size,
-      color: req.body.color,
+      productInfoId: req.body.productInfoId,
     });
 
     cart.addOrderInfo(newCartLineItem);
