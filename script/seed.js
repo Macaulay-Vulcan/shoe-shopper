@@ -15,55 +15,55 @@ async function seed() {
 
   // Creating Products
   const productMap = {
-		Nike: [
-			{
-				Name: "Air Max",
-				Description: "Description for Air Max.",
-				Type: "runner",
-				Image: "",
-        UnitPrice: 150 * 100 // in cents
-			},
-			{
-				Name: "Jordans",
-				Description: "Description for Jordans.",
-				Type: "basketball",
-				Image: "",
-        UnitPrice: 200 * 100 // in cents
-			},
-		],
-		Adidas: [
-			{
-				Name: "Yeezy",
-				Description: "Description for Yeezy.",
-				Type: "runner",
-				Image: "",
-        UnitPrice: 300 * 100 // in cents
-			},
-			{
-				Name: "Ultra Boost",
-				Description: "Description for Ultra Boost.",
-				Type: "runner",
-				Image: "",
-        UnitPrice: 160 * 100 // in cents
-			},
-		],
-		Reebok: [
-			{
-				Name: "Classic",
-				Description: "Description for Classic.",
-				Type: "lifestyle",
-				Image: "",
-        UnitPrice: 120 * 100 // in cents
-			},
-			{
-				Name: "Nano X",
-				Description: "Description for Nano X.",
-				Type: "runner",
-				Image: "",
-        UnitPrice: 130 * 100 // in cents
-			},
-		],
-	};
+    Nike: [
+      {
+        Name: 'Air Max',
+        Description: 'Description for Air Max.',
+        Type: 'runner',
+        Image: '',
+        UnitPrice: 150 * 100, // in cents
+      },
+      {
+        Name: 'Jordans',
+        Description: 'Description for Jordans.',
+        Type: 'basketball',
+        Image: '',
+        UnitPrice: 200 * 100, // in cents
+      },
+    ],
+    Adidas: [
+      {
+        Name: 'Yeezy',
+        Description: 'Description for Yeezy.',
+        Type: 'runner',
+        Image: '',
+        UnitPrice: 300 * 100, // in cents
+      },
+      {
+        Name: 'Ultra Boost',
+        Description: 'Description for Ultra Boost.',
+        Type: 'runner',
+        Image: '',
+        UnitPrice: 160 * 100, // in cents
+      },
+    ],
+    Reebok: [
+      {
+        Name: 'Classic',
+        Description: 'Description for Classic.',
+        Type: 'lifestyle',
+        Image: '',
+        UnitPrice: 120 * 100, // in cents
+      },
+      {
+        Name: 'Nano X',
+        Description: 'Description for Nano X.',
+        Type: 'runner',
+        Image: '',
+        UnitPrice: 130 * 100, // in cents
+      },
+    ],
+  };
 
   const productBrands = Object.keys(productMap); // ['Nike', 'Adidas', 'Reebok']
   let instancesInProduct = 0;
@@ -90,20 +90,28 @@ async function seed() {
 
   for (let i = 0; i < 100; i++) {
     let testProductInfo = {
-      size: productSize[Math.floor(Math.random() * productSize.length)],
-      color: productColors[Math.floor(Math.random() * productColors.length)],
-      productId: Math.ceil(Math.random() * instancesInProduct)
-    }
+      size: productSize[
+        Math.floor(Math.random() * productSize.length)
+      ],
+      color:
+        productColors[
+          Math.floor(Math.random() * productColors.length)
+        ],
+      productId: Math.ceil(Math.random() * instancesInProduct),
+    };
     let productInfo = {
       stock: 1,
       size: testProductInfo.size,
       color: testProductInfo.color,
-      productId: testProductInfo.productId
-    }
+      productId: testProductInfo.productId,
+    };
 
-    const instance = await ProductInfo.findOne({ where: testProductInfo });
-    if (instance) { // already exists
-      await instance.update({ stock: instance.stock + 1 })
+    const instance = await ProductInfo.findOne({
+      where: testProductInfo,
+    });
+    if (instance) {
+      // already exists
+      await instance.update({ stock: instance.stock + 1 });
     } else {
       await ProductInfo.create(productInfo);
     }
@@ -122,7 +130,7 @@ async function seed() {
     User.create({
       isAdmin: true,
       username: 'Johan',
-      password: '222',
+      password: '555',
       email: `johan@gmail.com`,
       address: `222 Main Street New York, NY 30000`,
       phone: `222-222-2222`,
@@ -150,23 +158,22 @@ async function seed() {
   // Seeding Order + OrderInfo
   const orderInstance = await Order.create({
     userId: 4,
-    isActive: true
-  })
+    isActive: true,
+  });
 
   await OrderInfo.create({
     orderId: orderInstance.id,
     productInfoId: 1,
     quantity: 1,
-    total_price: 100 * 100 
-  })
+    total_price: 100 * 100,
+  });
 
   await OrderInfo.create({
     orderId: orderInstance.id,
     productInfoId: 2,
     quantity: 2,
-    total_price: 150 * 100 
-  })
-
+    total_price: 150 * 100,
+  });
 }
 
 /*

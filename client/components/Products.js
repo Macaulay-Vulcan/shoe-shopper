@@ -16,16 +16,18 @@ const Products = () => {
   if (loading) return <div>Loading</div>;
   return (
     <div>
-      <h3 className='products-title'>PRODUCTS IN STOCK</h3>
-      <div className='products-container'>
+      <h3 className="products-title">PRODUCTS IN STOCK</h3>
+      <div className="products-container">
         {products.map((prod) => (
-          <div key={prod.id} className='product-tile'>
+          <div key={prod.id} className="product-tile">
             <img src={prod.image} />
             <h3>{prod.name}</h3>
             <p>{prod.brand}</p>
-            <p className='price'>{`$${prod.unit_price}`}</p>
+            <p className="price">{`$${prod.unit_price}`}</p>
             <Link to={`/products/${prod.id}`}>
-              <p><button>See Details</button></p>
+              <p>
+                <button>See Details</button>
+              </p>
             </Link>
           </div>
         ))}
