@@ -16,15 +16,6 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const products = await ProductInfo.findAll({
-      where: {
-        productId: req.params.id,
-      },
-    });
-    console.log('THIS IS PRODUCTS', products);
-
-    // res.json(products);
-
     const product = await Product.findByPk(req.params.id, {
       attributes: [
         'id',
@@ -40,7 +31,6 @@ router.get('/:id', async (req, res, next) => {
         attributes: ['id', 'color', 'stock', 'size', 'productId'],
       },
     });
-
     res.json(product);
   } catch (error) {
     next(error);

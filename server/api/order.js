@@ -38,7 +38,6 @@ router.get('/', async (req, res, next) => {
         },
       },
     });
-
     if (!order) {
       const error = new Error('Cart not found');
       error.status = 404;
@@ -51,15 +50,12 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-//how do we have a user ID here?
 router.post('/', async (req, res, next) => {
   try {
-    // step 1 : check if order exist
-    //step 2 : if exist, append
-    //step 3 : if doesnt, create
-
     const token = req.headers.authorization;
     const user = await User.findByToken(token);
+    const { productInfoId } = req.body;
+
     const [cart, newCart] = await Order.findOrCreate({
       where: {
         userId: user.id,
@@ -67,13 +63,33 @@ router.post('/', async (req, res, next) => {
       },
     });
 
-    const newCartLineItem = await OrderInfo.create({
+    const cartItem = await OrderInfo.create({
       quantity: 1,
-      productInfoId: req.body.productInfoId,
+      productInfoId: productInfoId,
+      orderId: cart.id
     });
 
-    cart.addOrderInfo(newCartLineItem);
-    res.json(newCartLineItem);
+    const cartItemInfo = await OrderInfo.findByPk(cartItem.id, {
+      attributes: ['id', 'quantity', 'total_price'],
+      include: {
+        model: ProductInfo,
+        attributes: ['id', 'color', 'stock', 'size'],
+        include: {
+          model: Product,
+          attributes: [
+            'id',
+            'name',
+            'description',
+            'type',
+            'brand',
+            'image',
+            'unit_price',
+          ],
+        },
+      },
+    });
+
+    res.json(cartItemInfo);
   } catch (error) {
     next(error);
   }

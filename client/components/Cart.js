@@ -3,18 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchCart } from '../store/cart';
 
-const Cart = (props) => {
-  const userId = props.userId;
+const Cart = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   let cartTotal = 0;
 
   useEffect(() => {
-    if (userId) dispatch(fetchCart());
-    console.log('THIS IS PROPS', props);
+    dispatch(fetchCart());
   }, []);
 
-  if (!cart.orderInfos) return <div>Loading...</div>;
+  if (!cart.orderInfos) return <div>Your cart is empty!</div>;
   return (
     <div>
       {cart.orderInfos.map((item) => {

@@ -21,7 +21,6 @@ const Routes = () => {
 
   useEffect(() => {
     dispatch(me());
-    console.log('THIS IS USER ID', userId);
   }, []);
 
   return (
