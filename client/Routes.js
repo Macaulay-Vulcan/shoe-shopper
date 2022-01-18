@@ -4,7 +4,6 @@ import { withRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Login, Signup } from "./components/AuthForm";
 import Home from "./components/Home";
 import Products from "./components/Products";
-import CreateProduct from "./components/CreateProduct";
 import SingleProduct from "./components/SingleProduct";
 import Account from "./components/Account";
 import Cart from "./components/Cart";
@@ -34,7 +33,6 @@ const Routes = () => {
 				</Switch>
 			)}
 			<Route exact path="/products" component={Products} />
-			<Route exact path="/products/create" component={CreateProduct} />
 			<Route
 				path="/products/:productId"
 				component={() => <SingleProduct userId={userId} />}

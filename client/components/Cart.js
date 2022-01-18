@@ -12,25 +12,48 @@ const Cart = () => {
     dispatch(fetchCart());
   }, []);
 
-  if (!cart.orderInfos) return <div>Your cart is empty!</div>;
+  if (!cart.orderInfos) return <div className='cart-container'>Your cart is empty!</div>;
   return (
-    <div>
-      {cart.orderInfos.map((item) => {
-        cartTotal +=
-          item.quantity * item.productInfo.product.unit_price;
-        return (
-          <div key={item.id}>
-            <p>Name: {item.productInfo.product.name}</p>
-            <p>QTY: {item.quantity}</p>
-            <p>Size: {item.productInfo.size}</p>
-            <p>Color: {item.productInfo.color}</p>
-            <p>Price: {item.productInfo.product.unit_price}</p>
-          </div>
-        );
-      })}
-      <div>
-        <p>Cart Total: {cartTotal}</p>
-      </div>
+    <div className='cart-container'>
+      <table>
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th></th>
+            <th>Size</th>
+            <th>Color</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cart.orderInfos.map((item) => {
+            cartTotal +=
+              item.quantity * item.productInfo.product.unit_price;
+            return (
+              <tr key={item.id} className='cart-item'>
+                <td>{item.productInfo.product.name}</td>
+                <td>
+                  <button type='button'>-</button>
+                  {item.quantity}
+                  <button type='button'>+</button>
+                </td>
+                <td><small>remove</small></td>
+                <td>{item.productInfo.size}</td>
+                <td>{item.productInfo.color}</td>
+                <td>{`$${(item.productInfo.product.unit_price / 100).toFixed(2)}`}</td>
+              </tr>
+            );
+          })}
+          <tr className='cart-last-row'>
+            <td></td><td></td><td></td><td></td>
+            <td>Total:</td>
+            <td>{`$${(cartTotal / 100).toFixed(2)}`}</td>
+          </tr>
+        </tbody>
+      </table>
+      <button type='button'>Update Cart</button>
+      <button type='button'>Checkout</button>
     </div>
   );
 };
