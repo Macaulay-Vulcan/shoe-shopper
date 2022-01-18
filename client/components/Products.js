@@ -13,7 +13,7 @@ const Products = () => {
     setLoading(false);
   }, []);
 
-  if (loading) return <div>Loading</div>;
+  if (loading) return <div><h3 className="products-title">Loading</h3></div>;
   return (
     <div>
       <h3 className="products-title">PRODUCTS IN STOCK</h3>
@@ -23,7 +23,7 @@ const Products = () => {
             <img src={prod.image} />
             <h3>{prod.name}</h3>
             <p>{prod.brand}</p>
-            <p className="price">{`$${prod.unit_price}`}</p>
+            <p className="price">{`$${(prod.unit_price / 100).toFixed(2)}`}</p>
             <Link to={`/products/${prod.id}`}>
               <p>
                 <button>See Details</button>
