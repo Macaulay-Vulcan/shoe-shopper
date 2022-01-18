@@ -12,7 +12,7 @@ import { me } from "./store";
 
 const Routes = () => {
 	const isLoggedIn = useSelector((state) => !!state.auth.id);
-	const { isAdmin } = useSelector((state) => state.auth);
+	const { userId, isAdmin } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -21,17 +21,16 @@ const Routes = () => {
 
 	return (
 		<div className="content">
+      <Route exact path="/" component={Home} />
 			{isLoggedIn ? (
 				<Switch>
-					<Route path="/home" component={Home} />
 					<Route path="/account" component={Account} />
+          {isAdmin && <Route path="/users" component={Users} />}
 				</Switch>
 			) : (
 				<Switch>
-					<Route path="/" exact component={Home} />
 					<Route exact path="/login" component={() => Login} />
 					<Route path="/signup" component={() => Signup} />
-					{isAdmin && <Route path="/users" component={Users} />}
 				</Switch>
 			)}
 			<Route exact path="/products" component={Products} />

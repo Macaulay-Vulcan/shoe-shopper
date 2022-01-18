@@ -76,10 +76,10 @@ User.authenticate = async function ({ username, password }) {
   return user.generateToken();
 };
 
-User.findByToken = function (token) {
+User.findByToken = async function (token) {
   try {
     const { id } = jwt.verify(token, process.env.JWT);
-    const user = User.findByPk(id);
+    const user = await User.findByPk(id);
     if (!user) {
       throw 'Denied Access';
     }

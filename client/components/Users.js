@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-// import { fetchUsers } from "../store/users";
+import { fetchUsers } from "../store/users";
 import { me } from "../store";
 
 const Users = () => {
@@ -10,7 +10,7 @@ const Users = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		// dispatch(fetchUsers());
+		dispatch(fetchUsers());
 		setLoading(false);
 	}, []);
 
@@ -21,11 +21,10 @@ const Users = () => {
       <div className="users-container">
         {users.map((user) => (
           <div key={user.id} className="user-tile">
-            <h3>{user.username}</h3>
-            <p>{user.email}</p>
-            <p>{user.address}</p>
-            <p>{user.phone}</p>
-            <p>{user.birthday}</p>
+            <h4>Username: {user.username}</h4>
+            <p>User ID: {user.id}</p>
+            <p>Email: {user.email}</p>
+            <p>Address: {user.address}</p>
             <Link to={`/users/${user.id}`}>
               <p>
                 <button>See Details</button>
