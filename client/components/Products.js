@@ -13,7 +13,7 @@ const Products = () => {
     setLoading(false);
   }, []);
 
-  if (loading) return <div>Loading</div>;
+  if (loading) return <div><h3 className="products-title">Loading</h3></div>;
   return (
     <div>
       <h3 className="products-title">PRODUCTS IN STOCK</h3>

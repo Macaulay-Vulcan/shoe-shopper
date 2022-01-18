@@ -21,7 +21,7 @@ const SingleProduct = () => {
     }
   }
 
-  if (!product.id) return <div>Loading</div>;
+  if (!product.id) return <div className='single-product-container'>Loading</div>;
   return (
     <div className='single-product-container'>
       <div className='single-product-left'>
