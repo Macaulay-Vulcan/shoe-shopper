@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchSingleUser } from '../store/singleUser';
+import { fetchSingleUser, setSingleUser } from '../store/singleUser';
 
 const SingleUser = () => {
   const { userId } = useParams();
@@ -10,15 +10,10 @@ const SingleUser = () => {
 
   useEffect(() => {
     dispatch(fetchSingleUser(userId));
+    return () => { // clear up component when leaving the page
+      dispatch(setSingleUser({}))
+    }
   }, []);
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    // const userInfoId = e.target.userId.value;
-    // if (userInfoId) {
-    //   dispatch(addItemToCart(userInfoId));
-    // }
-  }
 
   if (!user) return <div className='single-user-container'>Loading</div>;
   return (

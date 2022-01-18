@@ -22,15 +22,12 @@ const Routes = () => {
 
 	return (
 		<div className="content">
-      <Route exact path="/" component={Home} />
+			<Route exact path="/" component={Home} />
 			{isLoggedIn ? (
 				<Switch>
 					<Route path="/account" component={Account} />
-          {isAdmin &&
-          <div>
-            <Route exact path="/users" component={Users} />
-            <Route path="/users/:userId" component={SingleUser} />
-          </div>}
+					{isAdmin && <Route exact path="/users" component={Users} />}
+					{isAdmin && <Route path="/users/:userId" component={SingleUser} />}
 				</Switch>
 			) : (
 				<Switch>

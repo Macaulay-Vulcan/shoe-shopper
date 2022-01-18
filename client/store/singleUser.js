@@ -3,7 +3,7 @@ const TOKEN = "token";
 
 const SET_SINGLE_USER = "SET_SINGLE_USER";
 
-const setSingleUser = (user) => ({ type: SET_SINGLE_USER, user });
+export const setSingleUser = (user) => ({ type: SET_SINGLE_USER, user });
 
 export const fetchSingleUser = (userId) => {
 	const token = window.localStorage.getItem(TOKEN);
