@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const { createDispatchHook } = require('react-redux');
 const Sequelize = require('sequelize');
 const {
   models: { Product, ProductInfo, User, Order, OrderInfo },
@@ -19,7 +18,7 @@ router.get('/', async (req, res, next) => {
       attributes: ['id', 'order_total', 'isActive', 'userId'],
       include: {
         model: OrderInfo,
-        attributes: ['id', 'quantity', 'total_price'],
+        attributes: ['id', 'quantity', 'total_price', 'createdAt'],
         include: {
           model: ProductInfo,
           attributes: ['id', 'color', 'stock', 'size'],
@@ -70,7 +69,7 @@ router.post('/', async (req, res, next) => {
     });
 
     const cartItemInfo = await OrderInfo.findByPk(cartItem.id, {
-      attributes: ['id', 'quantity', 'total_price'],
+      attributes: ['id', 'quantity', 'total_price', 'createdAt'],
       include: {
         model: ProductInfo,
         attributes: ['id', 'color', 'stock', 'size'],
@@ -94,3 +93,84 @@ router.post('/', async (req, res, next) => {
     next(error);
   }
 });
+
+router.delete('/:orderInfoId', async (req, res, next) => {
+  try {
+    const { orderInfoId } = req.params;
+    const token = req.headers.authorization;
+    const user = await User.findByToken(token);
+    
+    const cartItem = await OrderInfo.findByPk(orderInfoId, {
+      attributes: ['id', 'quantity', 'total_price', 'createdAt'],
+      include: {
+        model: Order,
+        attributes: ['id', 'order_total', 'isActive', 'userId']
+      }
+    });
+
+    if (!cartItem) {
+      const error = new Error("Portfolio item not found");
+      error.status = 404;
+      next(error);
+    } else if (cartItem.order.userId !== user.id){
+      const error = new Error("Only users can edit their own carts");
+      error.status = 401;
+      next(error);
+    } else {
+      await cartItem.destroy();
+      res.json(cartItem);
+    }
+  } catch (error) {
+    next(error);
+  }
+})
+
+router.put('/:orderInfoId', async (req, res, next) => {
+  try {
+    const { orderInfoId } = req.params;
+    const { quantity } = req.body;
+    const token = req.headers.authorization;
+    const user = await User.findByToken(token);
+    
+    const cartItem = await OrderInfo.findByPk(orderInfoId, {
+      attributes: ['id', 'quantity', 'total_price', 'createdAt'],
+      include: [
+        {
+          model: Order,
+          attributes: ['id', 'order_total', 'isActive', 'userId']
+        },
+        {
+          model: ProductInfo,
+          attributes: ['id', 'color', 'stock', 'size'],
+          include: {
+            model: Product,
+            attributes: [
+              'id',
+              'name',
+              'description',
+              'type',
+              'brand',
+              'image',
+              'unit_price',
+            ],
+          },
+        },
+      ]
+    });
+
+    if (!cartItem) {
+      const error = new Error("Portfolio item not found");
+      error.status = 404;
+      next(error);
+    } else if (cartItem.order.userId !== user.id){
+      const error = new Error("Only users can edit their own carts");
+      error.status = 401;
+      next(error);
+    } else {
+      await cartItem.update({ quantity });
+      res.json(cartItem);
+    }
+  } catch (error) {
+    next(error);
+  }
+})

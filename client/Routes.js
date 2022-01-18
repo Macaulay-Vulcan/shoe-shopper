@@ -7,6 +7,7 @@ import Products from "./components/Products";
 import SingleProduct from "./components/SingleProduct";
 import Account from "./components/Account";
 import Cart from "./components/Cart";
+import Checkout from "./components/Checkout";
 import { me } from "./store";
 
 const Routes = () => {
@@ -38,6 +39,7 @@ const Routes = () => {
 				component={() => <SingleProduct userId={userId} />}
 			/>
 			<Route path="/order" component={() => <Cart userId={userId} />} />
+			<Route path="/checkout" component={Checkout} />
 		</div>
 	);
 };
