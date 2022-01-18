@@ -4,15 +4,18 @@ import { withRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Login, Signup } from "./components/AuthForm";
 import Home from "./components/Home";
 import Products from "./components/Products";
+import CreateProduct from "./components/CreateProduct";
 import SingleProduct from "./components/SingleProduct";
 import Account from "./components/Account";
+import Users from "./components/Users";
+import SingleUser from "./components/SingleUser";
 import Cart from "./components/Cart";
 import Checkout from "./components/Checkout";
 import { me } from "./store";
 
 const Routes = () => {
 	const isLoggedIn = useSelector((state) => !!state.auth.id);
-	const userId = useSelector((state) => state.auth.id);
+	const { userId, isAdmin } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -21,25 +24,19 @@ const Routes = () => {
 
 	return (
 		<div className="content">
-			{isLoggedIn ? (
-				<Switch>
-					<Route path="/home" component={Home} />
-					<Route path="/account" component={Account} />
-				</Switch>
-			) : (
-				<Switch>
-					<Route path="/" exact component={() => Home} />
-					<Route exact path="/login" component={() => Login} />
-					<Route path="/signup" component={() => Signup} />
-				</Switch>
-			)}
-			<Route exact path="/products" component={Products} />
-			<Route
-				path="/products/:productId"
-				component={() => <SingleProduct userId={userId} />}
-			/>
-			<Route path="/order" component={() => <Cart userId={userId} />} />
-			<Route path="/checkout" component={Checkout} />
+			<Switch>
+				<Route exact path="/" component={Home} />
+				{isLoggedIn && <Route exact path="/account" component={Account} />}
+				{isAdmin && <Route exact path="/users" component={Users} />}
+				{isAdmin && <Route exact path="/users/:userId" component={SingleUser} />}
+				{!isLoggedIn && <Route exact path="/login" component={() => Login} />}
+				{!isLoggedIn && <Route exact path="/signup" component={() => Signup} />}
+				<Route exact path="/products" component={Products} />
+				{isAdmin && <Route exact path="/products/create" component={CreateProduct} />}
+				<Route exact path="/products/:productId" component={SingleProduct} />
+				<Route exact path="/order" component={() => <Cart userId={userId} />} />
+        <Route path="/checkout" component={Checkout} />
+			</Switch>
 		</div>
 	);
 };
