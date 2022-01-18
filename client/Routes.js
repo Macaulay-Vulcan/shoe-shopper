@@ -7,6 +7,7 @@ import Products from "./components/Products";
 import SingleProduct from "./components/SingleProduct";
 import Account from "./components/Account";
 import Users from "./components/Users";
+import SingleUser from "./components/SingleUser";
 import Cart from "./components/Cart";
 import { me } from "./store";
 
@@ -25,7 +26,11 @@ const Routes = () => {
 			{isLoggedIn ? (
 				<Switch>
 					<Route path="/account" component={Account} />
-          {isAdmin && <Route path="/users" component={Users} />}
+          {isAdmin &&
+          <div>
+            <Route exact path="/users" component={Users} />
+            <Route path="/users/:userId" component={SingleUser} />
+          </div>}
 				</Switch>
 			) : (
 				<Switch>
