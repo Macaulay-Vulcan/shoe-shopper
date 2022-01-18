@@ -162,6 +162,15 @@ nav a:hover {
   background-color: rgb(233, 233, 233);
 }
 
+.cart-remove-option {
+  color: crimson;
+}
+
+.cart-remove-option:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
 img {
   width: 200px;
   height: 200px;

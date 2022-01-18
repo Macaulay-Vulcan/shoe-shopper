@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchCart } from '../store/cart';
+import { fetchCart, removeCartItem, updateCartItem } from '../store/cart';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -32,13 +32,24 @@ const Cart = () => {
               item.quantity * item.productInfo.product.unit_price;
             return (
               <tr key={item.id} className='cart-item'>
-                <td>{item.productInfo.product.name}</td>
                 <td>
-                  <button type='button'>-</button>
-                  {item.quantity}
-                  <button type='button'>+</button>
+                  <Link to={`/products/${item.productInfo.product.id}`}>
+                    {item.productInfo.product.name}
+                  </Link>
                 </td>
-                <td><small>remove</small></td>
+                <td>
+                  <button type='button' onClick={() => dispatch(updateCartItem(item.id,item.quantity - 1))}>-</button>
+                    {item.quantity}
+                  <button type='button' onClick={() => dispatch(updateCartItem(item.id,item.quantity + 1))}>+</button>
+                </td>
+                <td>
+                  <small
+                    className='cart-remove-option' 
+                    onClick={() => dispatch(removeCartItem(item.id))}
+                  >
+                    remove
+                  </small>
+                </td>
                 <td>{item.productInfo.size}</td>
                 <td>{item.productInfo.color}</td>
                 <td>{`$${(item.productInfo.product.unit_price / 100).toFixed(2)}`}</td>
