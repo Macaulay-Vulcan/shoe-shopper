@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const { createDispatchHook } = require('react-redux');
 const Sequelize = require('sequelize');
 const {
   models: { Product, ProductInfo, User, Order, OrderInfo },
