@@ -22,19 +22,13 @@ const SingleUser = () => {
 
   if (!user) return <div className='single-user-container'>Loading</div>;
   return (
-    <div className='single-user-container'>
-      <div className='single-user-left'>
-        <h2>Username: {user.username}</h2>
-        <p>User ID: {user.id}</p>
-      </div>
-      <div className='single-user-right'>
-        <h4>Category: {user.type}</h4>
-        <p>{user.description}</p>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor='size-color'>Select available size and color:</label>
-          <button type="submit">Update User</button>
-        </form>
-      </div>
+    <div>
+      <h2>Username: {user.username}</h2>
+      <p>ID: {user.id}</p>
+      <p>Email: {user.email}</p>
+      <p>Address: {user.address}</p>
+      <p>Phone: {user.phone}</p>
+      <p>Birthday: {user.birthday}</p>
     </div>
   );
 };
