@@ -1,42 +1,72 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { authenticate } from '../store'
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuth, authenticate } from "../store";
 
-const AuthForm = ({ name, displayName}) => {
-  const { error } = useSelector(state => state.auth);
-  const dispatch = useDispatch();
+const AuthForm = ({ name, displayName }) => {
+	const { auth } = useSelector((state) => state);
+	const { error } = useSelector((state) => state.auth);
+	const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formName = e.target.name;
-    const username = e.target.username.value;
-    const password = e.target.password.value;
-    dispatch(authenticate(username, password, formName));
-  }
+	useEffect(() => {
+		// clears out error message upon switching between login & signup
+		return () => {
+			dispatch(setAuth({ ...auth, error: "" }));
+		};
+	}, []);
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="username">
-            <small>Username</small>
-          </label>
-          <input name="username" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-    </div>
-  )
-}
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const formName = e.target.name;
+		const username = e.target.username.value;
+		const password = e.target.password.value;
+		if (formName === "login")
+			dispatch(authenticate(username, password, formName));
+		else {
+			const email = e.target.email.value;
+			const address = e.target.address.value;
+			dispatch(authenticate(username, password, formName, email, address));
+		}
+	};
 
-export const Login = <AuthForm name="login" displayName="Login" />
-export const Signup = <AuthForm name="signup" displayName="Sign Up" />
+	return (
+		<div>
+			<form onSubmit={handleSubmit} name={name}>
+				<div>
+					<label htmlFor="username">
+						<small>Username</small>
+					</label>
+					<input name="username" type="text" />
+				</div>
+				{name === "signup" && ( // display email & address fields only for signup
+					<div>
+						<div>
+							<label htmlFor="email">
+								<small>Email</small>
+							</label>
+							<input name="email" type="email" />
+						</div>
+						<div>
+							<label htmlFor="address">
+								<small>Address</small>
+							</label>
+							<input name="address" type="text" />
+						</div>
+					</div>
+				)}
+				<div>
+					<label htmlFor="password">
+						<small>Password</small>
+					</label>
+					<input name="password" type="password" />
+				</div>
+				<div>
+					<button type="submit">{displayName}</button>
+				</div>
+				{error && error.response && <div> {error.response.data} </div>}
+			</form>
+		</div>
+	);
+};
+
+export const Login = <AuthForm name="login" displayName="Login" />;
+export const Signup = <AuthForm name="signup" displayName="Sign Up" />;

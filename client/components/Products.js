@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { fetchProducts } from '../store/products';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { fetchProducts } from "../store/products";
+import { me } from "../store";
 
 const Products = () => {
-  const products = useSelector((state) => state.products);
-  const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
+	const { auth, products } = useSelector((state) => state);
+	const [loading, setLoading] = useState(true);
+	const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchProducts());
-    setLoading(false);
-  }, []);
+	useEffect(() => {
+		dispatch(fetchProducts());
+		setLoading(false);
+	}, []);
 
   if (loading) return <div><h3 className="products-title">Loading</h3></div>;
   return (
