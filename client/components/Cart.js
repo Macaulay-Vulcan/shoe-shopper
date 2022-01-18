@@ -27,9 +27,10 @@ const Cart = () => {
           </tr>
         </thead>
         <tbody>
-          {cart.orderInfos.map((item) => {
-            cartTotal +=
-              item.quantity * item.productInfo.product.unit_price;
+          {cart.orderInfos
+            .sort((a, b) => a.id - b.id)
+            .map((item) => {
+              cartTotal += item.quantity * item.productInfo.product.unit_price;
             return (
               <tr key={item.id} className='cart-item'>
                 <td>
@@ -38,9 +39,21 @@ const Cart = () => {
                   </Link>
                 </td>
                 <td>
-                  <button type='button' onClick={() => dispatch(updateCartItem(item.id,item.quantity - 1))}>-</button>
+                  <button 
+                    type='button'
+                    className='cart-quantity-button'
+                    onClick={() => dispatch(updateCartItem(item.id,item.quantity - 1))}
+                  >
+                    -
+                  </button>
                     {item.quantity}
-                  <button type='button' onClick={() => dispatch(updateCartItem(item.id,item.quantity + 1))}>+</button>
+                  <button 
+                    type='button'
+                    className='cart-quantity-button'
+                    onClick={() => dispatch(updateCartItem(item.id,item.quantity + 1))}
+                  >
+                    +
+                  </button>
                 </td>
                 <td>
                   <small
@@ -63,8 +76,11 @@ const Cart = () => {
           </tr>
         </tbody>
       </table>
-      <button type='button'>Update Cart</button>
-      <button type='button'>Checkout</button>
+      <div className='cart-checkout-button-container'>
+        <Link to={'/checkout'}>
+            <button type='button' className='cart-checkout-button'>Checkout</button>
+        </Link>
+      </div>
     </div>
   );
 };

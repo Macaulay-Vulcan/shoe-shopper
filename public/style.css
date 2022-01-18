@@ -140,11 +140,26 @@ nav a:hover {
   font-family: arial;
   padding: 1em 1em 1em 1em;
   margin: 0 2em 0 2em;
+  display: flex;
+  flex-direction: column;
 }
 
 .cart-container table {
   width: 100%;
   border-collapse: collapse;
+}
+
+.cart-checkout-button {
+  border: none;
+  outline: 0;
+  padding: 0.5rem;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  max-width: 200px;
+  font-size: 16px;
+  margin-top: 0.5em;
 }
 
 .cart-container th,
@@ -166,10 +181,17 @@ nav a:hover {
   color: crimson;
 }
 
-.cart-remove-option:hover {
-  opacity: 0.7;
+.cart-quantity-button {
+  width: 1em;
+  margin: 0 1em 0 1em;
+}
+
+.cart-remove-option:hover,
+.cart-quantity-button:hover {
+  opacity: 0.3;
   cursor: pointer;
 }
+
 
 img {
   width: 200px;

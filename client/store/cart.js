@@ -26,6 +26,10 @@ export const fetchCart = () => {
         console.log(error);
       }
     };
+  } else {
+    return dispatch => {
+      dispatch(setCart({}));
+    }
   }
 };
 
@@ -45,6 +49,10 @@ export const addItemToCart = (productInfoId) => {
         console.log(error);
       }
     };
+  } else {
+    return dispatch => {
+      dispatch(setCart({}));
+    }
   }
 };
 
@@ -64,6 +72,10 @@ export const removeCartItem = (orderInfoId) => {
         console.log(error);
       }
     };
+  } else {
+    return dispatch => {
+      dispatch(setCart({}));
+    }
   }
 }
 
@@ -84,6 +96,10 @@ export const updateCartItem = (orderInfoId, quantity) => {
         console.log(error);
       }
     };
+  } else {
+    return dispatch => {
+      dispatch(setCart({}));
+    }
   }
 }
 

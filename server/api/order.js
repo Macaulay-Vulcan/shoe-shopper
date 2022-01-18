@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
       attributes: ['id', 'order_total', 'isActive', 'userId'],
       include: {
         model: OrderInfo,
-        attributes: ['id', 'quantity', 'total_price'],
+        attributes: ['id', 'quantity', 'total_price', 'createdAt'],
         include: {
           model: ProductInfo,
           attributes: ['id', 'color', 'stock', 'size'],
@@ -69,7 +69,7 @@ router.post('/', async (req, res, next) => {
     });
 
     const cartItemInfo = await OrderInfo.findByPk(cartItem.id, {
-      attributes: ['id', 'quantity', 'total_price'],
+      attributes: ['id', 'quantity', 'total_price', 'createdAt'],
       include: {
         model: ProductInfo,
         attributes: ['id', 'color', 'stock', 'size'],
@@ -101,7 +101,7 @@ router.delete('/:orderInfoId', async (req, res, next) => {
     const user = await User.findByToken(token);
     
     const cartItem = await OrderInfo.findByPk(orderInfoId, {
-      attributes: ['id', 'quantity', 'total_price'],
+      attributes: ['id', 'quantity', 'total_price', 'createdAt'],
       include: {
         model: Order,
         attributes: ['id', 'order_total', 'isActive', 'userId']
@@ -133,7 +133,7 @@ router.put('/:orderInfoId', async (req, res, next) => {
     const user = await User.findByToken(token);
     
     const cartItem = await OrderInfo.findByPk(orderInfoId, {
-      attributes: ['id', 'quantity', 'total_price'],
+      attributes: ['id', 'quantity', 'total_price', 'createdAt'],
       include: [
         {
           model: Order,
