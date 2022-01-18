@@ -10,6 +10,7 @@ import Account from "./components/Account";
 import Users from "./components/Users";
 import SingleUser from "./components/SingleUser";
 import Cart from "./components/Cart";
+import Checkout from "./components/Checkout";
 import { me } from "./store";
 
 const Routes = () => {
@@ -34,6 +35,7 @@ const Routes = () => {
 				{isAdmin && <Route exact path="/products/create" component={CreateProduct} />}
 				<Route exact path="/products/:productId" component={SingleProduct} />
 				<Route exact path="/order" component={() => <Cart userId={userId} />} />
+        <Route path="/checkout" component={Checkout} />
 			</Switch>
 		</div>
 	);
