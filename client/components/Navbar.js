@@ -5,8 +5,9 @@ import {logout} from '../store'
 
 const Navbar = () => {
   const isLoggedIn = useSelector(state => !!state.auth.id);
+  const { isAdmin } = useSelector(state => state.auth);
   const dispatch = useDispatch();
-  
+
   return (
     <div className='header'>
       <h1>Shoe-Shopper</h1>
@@ -17,6 +18,7 @@ const Navbar = () => {
             <Link to="/home">Home</Link>
             <Link to="/products">Products</Link>
             <Link to="/account">Account</Link>
+            {isAdmin && <Link to="/users">Users</Link>}
             <a href="#" onClick={() => dispatch(logout())}>
               Logout
             </a>

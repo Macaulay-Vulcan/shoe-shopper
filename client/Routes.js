@@ -6,12 +6,13 @@ import Home from "./components/Home";
 import Products from "./components/Products";
 import SingleProduct from "./components/SingleProduct";
 import Account from "./components/Account";
+import Users from "./components/Users";
 import Cart from "./components/Cart";
 import { me } from "./store";
 
 const Routes = () => {
 	const isLoggedIn = useSelector((state) => !!state.auth.id);
-	const userId = useSelector((state) => state.auth.id);
+	const { isAdmin } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -27,16 +28,14 @@ const Routes = () => {
 				</Switch>
 			) : (
 				<Switch>
-					<Route path="/" exact component={() => Home} />
+					<Route path="/" exact component={Home} />
 					<Route exact path="/login" component={() => Login} />
 					<Route path="/signup" component={() => Signup} />
+					{isAdmin && <Route path="/users" component={Users} />}
 				</Switch>
 			)}
 			<Route exact path="/products" component={Products} />
-			<Route
-				path="/products/:productId"
-				component={() => <SingleProduct userId={userId} />}
-			/>
+			<Route path="/products/:productId" component={SingleProduct} />
 			<Route path="/order" component={() => <Cart userId={userId} />} />
 		</div>
 	);
