@@ -7,8 +7,9 @@ import { addItemToCart } from "../store/cart";
 const SingleProduct = () => {
 	const { productId } = useParams();
 	const { auth, product } = useSelector((state) => state);
+	const isLoggedIn = useSelector(state => !!state.auth.id);
 	const dispatch = useDispatch();
-  const [addedToCart, setAddedToCart] = useState(0);
+	const [addedToCart, setAddedToCart] = useState(0);
 
 	useEffect(() => {
 		dispatch(fetchSingleProduct(productId));
@@ -17,9 +18,9 @@ const SingleProduct = () => {
 	function handleSubmit(e) {
 		e.preventDefault();
 		const productInfoId = e.target.productId.value;
-		if (productInfoId) {
+		if (productInfoId && isLoggedIn) {
 			dispatch(addItemToCart(productInfoId));
-      setAddedToCart(addedToCart + 1);
+			setAddedToCart(addedToCart + 1);
 		}
 	}
 
@@ -39,7 +40,6 @@ const SingleProduct = () => {
 				<form onSubmit={handleSubmit}>
 					<label htmlFor="size-color">Select available size and color:</label>
 					<select id="size-color" name="productId">
-						<option hidden="hidden">Size / Color</option>
 						{product.productInfos
 							.filter((prod) => prod.stock > 0)
 							.sort((a, b) => Number(a.size) - Number(b.size))
@@ -50,18 +50,24 @@ const SingleProduct = () => {
 							))}
 					</select>
 					{auth.isAdmin && (
-						<Link to={`/products/${product.id}/create`}>
-							Edit Sizes & Colors
-						</Link>
+						<small>
+							<Link to={`/products/${product.id}/create`}>
+								Edit Sizes & Colors
+							</Link>
+						</small>
 					)}
 					<button type="submit">Add To Cart</button>
-          <p>
-              <small
-                className={addedToCart ? 'add-to-cart-confirmation' : ''}
-              >
-                You added {addedToCart} items to cart.
-              </small>
-            </p>
+					<p>
+					<small
+						className={addedToCart ? 'add-to-cart-confirmation' : ''}
+					>
+						{
+							isLoggedIn 
+								? `You added ${addedToCart} item(s) to cart.`
+								: 'Please login or sign up to add items to your cart.'
+						}
+					</small>
+					</p>
 				</form>
 			</div>
 		</div>
