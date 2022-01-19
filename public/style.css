@@ -192,6 +192,12 @@ nav a:hover {
   cursor: pointer;
 }
 
+.add-to-cart-confirmation {
+  color: green;
+  margin: 0;
+  padding: 0;
+}
+
 
 img {
   width: 200px;
