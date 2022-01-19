@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { fetchSingleProduct } from "../store/singleProduct";
 import { addItemToCart } from "../store/cart";
+import { centsToDollars } from "../utility";
 
 const SingleProduct = () => {
 	const { productId } = useParams();
@@ -31,7 +32,7 @@ const SingleProduct = () => {
 			<div className="single-product-left">
 				<h2> {product.name}</h2>
 				<img src={product.image} />
-				<h4 className="price">{"$" + (product.unit_price / 100).toFixed(2)}</h4>
+				<h4 className="price">{centsToDollars(product.unit_price)}</h4>
 			</div>
 			<div className="single-product-right">
 				<h4>{product.brand}</h4>

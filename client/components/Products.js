@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchProducts } from "../store/products";
 import { me } from "../store";
+import { centsToDollars } from "../utility";
 
 const Products = () => {
 	const { auth, products } = useSelector((state) => state);
@@ -30,7 +31,7 @@ const Products = () => {
 						<img src={prod.image} />
 						<h3>{prod.name}</h3>
 						<p>{prod.brand}</p>
-						<p className="price">{`$${(prod.unit_price / 100).toFixed(2)}`}</p>
+						<p className="price">{centsToDollars(prod.unit_price)}</p>
 						<Link to={`/products/${prod.id}`}>
 							<p>
 								<button>See Details</button>

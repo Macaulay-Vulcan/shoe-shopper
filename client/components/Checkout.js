@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchCart, confirmOrder } from '../store/cart';
+import { centsToDollars } from "../utility"
 
 const Checkout = () => {
     const dispatch = useDispatch();
@@ -52,7 +53,7 @@ const Checkout = () => {
     } else {
         return (
             <div className='checkout-container'>
-                <h4>Your total is: {cartTotal}</h4>
+                <h4>Your total is: {centsToDollars(cartTotal)}</h4>
                 <h4>Enter your information to complete order</h4>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="cc-number">

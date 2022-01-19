@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchCart, removeCartItem, updateCartItem } from '../store/cart';
+import { centsToDollars } from '../utility'
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -50,7 +51,11 @@ const Cart = () => {
                     <button 
                       type='button'
                       className='cart-quantity-button'
-                      onClick={() => dispatch(updateCartItem(item.id, Math.max(1, item.quantity - 1)))}
+                      onClick={() => {
+                        if (item.quantity > 1) {
+                          return dispatch(updateCartItem(item.id, item.quantity - 1))
+                        }
+                      }}
                     >
                       -
                     </button>
@@ -73,14 +78,14 @@ const Cart = () => {
                   </td>
                   <td>{item.productInfo.size}</td>
                   <td>{item.productInfo.color}</td>
-                  <td>{`$${(item.productInfo.product.unit_price / 100).toFixed(2)}`}</td>
+                  <td>{centsToDollars(item.quantity * item.productInfo.product.unit_price)}</td>
                 </tr>
               );
             })}
             <tr className='cart-last-row'>
               <td></td><td></td><td></td><td></td>
               <td>Total:</td>
-              <td>{`$${(cartTotal / 100).toFixed(2)}`}</td>
+              <td>{centsToDollars(cartTotal)}</td>
             </tr>
           </tbody>
         </table>

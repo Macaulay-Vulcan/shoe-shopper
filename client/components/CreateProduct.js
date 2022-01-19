@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createProduct } from "../store/products";
+import { dollarsToCents } from "../utility"
 
 const CreateProduct = () => {
 	const [name, setName] = useState("");
@@ -16,6 +17,8 @@ const CreateProduct = () => {
 		brand: "init",
 		unit_price: "init",
 	});
+
+	console.log(typeof unit_price, unit_price)
 
 	const types = ["basketball", "runner", "boot", "lifestyle", "other"];
 
@@ -44,6 +47,7 @@ const CreateProduct = () => {
 				break;
 			case "unit_price":
 				setUnitPrice(value);
+				break;
 			default:
 				break;
 		}
@@ -55,7 +59,8 @@ const CreateProduct = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (Object.values(errors).every((error) => error === "")) {
-			const product = { name, description, type, brand, image, unit_price };
+			const unitPriceCents = dollarsToCents(unit_price);
+			const product = { name, description, type, brand, image, unit_price: unitPriceCents };
 			dispatch(createProduct(product));
 		} else {
 			console.error("Invalid Form");
@@ -100,7 +105,7 @@ const CreateProduct = () => {
 					value={unit_price}
 					type="number"
 					min="0"
-					max="1000"
+					step="any"
 				/>{" "}
 				{/* decide unit_price limit */}
 				{isEmpty(errors.unit_price) && <span className="error">{errors.unit_price}</span>}
