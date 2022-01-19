@@ -18,8 +18,6 @@ const CreateProduct = () => {
 		unit_price: "init",
 	});
 
-	console.log(typeof unit_price, unit_price)
-
 	const types = ["basketball", "runner", "boot", "lifestyle", "other"];
 
   const dispatch = useDispatch();
