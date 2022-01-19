@@ -123,14 +123,16 @@ const Checkout = () => {
                         Confirm Order
                     </button>
                 </form>
-                <Link to={'/order'}>
-                    <button 
-                    type='button' 
-                    className='cart-checkout-button'
-                    >
-                        Back to cart
-                    </button>
-                </Link>
+                <div>
+                    <Link to={'/order'}>
+                        <button 
+                        type='button' 
+                        className='cart-checkout-button'
+                        >
+                            Back to cart
+                        </button>
+                    </Link>
+                </div>
             </div>
         )
     }

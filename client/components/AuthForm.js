@@ -6,7 +6,7 @@ const AuthForm = ({ name, displayName }) => {
 	const { error } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 
-	useEffect(() => { // cleans up error upon switching between login and signup
+	useEffect(() => { 
 		if (error) error.response = null;
 	}, []);
 
@@ -33,7 +33,7 @@ const AuthForm = ({ name, displayName }) => {
 					</label>
 					<input name="username" type="text" />
 				</div>
-				{name === "signup" && ( // display email & address fields only for signup
+				{name === "signup" && ( 
 					<div>
 						<div>
 							<label htmlFor="email">
