@@ -55,40 +55,45 @@ router.post('/', async (req, res, next) => {
     const user = await User.findByToken(token);
     const { productInfoId } = req.body;
 
-    const [cart, newCart] = await Order.findOrCreate({
-      where: {
-        userId: user.id,
-        isActive: true,
-      },
-    });
-
-    const cartItem = await OrderInfo.create({
-      quantity: 1,
-      productInfoId: productInfoId,
-      orderId: cart.id
-    });
-
-    const cartItemInfo = await OrderInfo.findByPk(cartItem.id, {
-      attributes: ['id', 'quantity', 'total_price', 'createdAt'],
-      include: {
-        model: ProductInfo,
-        attributes: ['id', 'color', 'stock', 'size'],
-        include: {
-          model: Product,
-          attributes: [
-            'id',
-            'name',
-            'description',
-            'type',
-            'brand',
-            'image',
-            'unit_price',
-          ],
+    if (!user.id) {
+      const error = new Error("Only users add items to their own carts");
+      error.status = 401;
+      next(error);
+    } else {
+      const [cart, newCart] = await Order.findOrCreate({
+        where: {
+          userId: user.id,
+          isActive: true,
         },
-      },
-    });
-
-    res.json(cartItemInfo);
+      });
+  
+      const cartItem = await OrderInfo.create({
+        quantity: 1,
+        productInfoId: productInfoId,
+        orderId: cart.id
+      });
+  
+      const cartItemInfo = await OrderInfo.findByPk(cartItem.id, {
+        attributes: ['id', 'quantity', 'total_price', 'createdAt'],
+        include: {
+          model: ProductInfo,
+          attributes: ['id', 'color', 'stock', 'size'],
+          include: {
+            model: Product,
+            attributes: [
+              'id',
+              'name',
+              'description',
+              'type',
+              'brand',
+              'image',
+              'unit_price',
+            ],
+          },
+        },
+      });
+      res.json(cartItemInfo);
+    }
   } catch (error) {
     next(error);
   }
@@ -157,7 +162,6 @@ router.put('/:orderInfoId', async (req, res, next) => {
         },
       ]
     });
-
     if (!cartItem) {
       const error = new Error("Portfolio item not found");
       error.status = 404;
