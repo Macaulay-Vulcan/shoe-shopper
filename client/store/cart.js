@@ -103,6 +103,30 @@ export const updateCartItem = (orderInfoId, quantity) => {
   }
 }
 
+export const confirmOrder = (orderId, orderTotal) => {
+  const token = window.localStorage.getItem(TOKEN);
+  if (token) {
+    return async (dispatch) => {
+      try {
+        const { data: cart } = await axios.put(`/api/checkout/${orderId}`,
+        {orderTotal}, 
+        {
+          headers: {
+            authorization: token
+          }
+        });
+        dispatch(setCart({}));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  } else {
+    return dispatch => {
+      dispatch(setCart({}));
+    }
+  }
+}
+
 export default function CartReducer(state = {}, action) {
   switch (action.type) {
     case SET_CART:
