@@ -92,7 +92,19 @@ router.put("/:productId", async (req, res, next) => {
 	}
 });
 
-router.put("/:productId/:productInfoId", async (req, res, next) => {});
+router.put("/productInfo/:productInfoId", requireToken, isAdmin, async (req, res, next) => {
+	try {
+		const { productInfo } = req.body;
+		const newProductInfo = await ProductInfo.findByPk(productInfo.id, {
+			attributes: ["color", "size", "stock"],
+		});
+		newProductInfo.update(productInfo);
+		res.json(newProductInfo);
+	} catch (error) {
+		console.error("🧑🏻‍💻 Error while updating productInfo in router!");
+		next(error);
+	}
+});
 
 router.delete("/:id", async (req, res, next) => {
 	try {
