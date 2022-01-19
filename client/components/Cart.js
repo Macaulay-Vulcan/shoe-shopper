@@ -42,7 +42,7 @@ const Cart = () => {
                   <button 
                     type='button'
                     className='cart-quantity-button'
-                    onClick={() => dispatch(updateCartItem(item.id,item.quantity - 1))}
+                    onClick={() => dispatch(updateCartItem(item.id, Math.max(1, item.quantity - 1)))}
                   >
                     -
                   </button>
@@ -50,7 +50,7 @@ const Cart = () => {
                   <button 
                     type='button'
                     className='cart-quantity-button'
-                    onClick={() => dispatch(updateCartItem(item.id,item.quantity + 1))}
+                    onClick={() => dispatch(updateCartItem(item.id, item.quantity + 1))}
                   >
                     +
                   </button>
