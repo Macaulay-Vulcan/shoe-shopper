@@ -8,6 +8,7 @@ const SingleProduct = () => {
   const { productId } = useParams();
   const product = useSelector((state) => state.product);
   const dispatch = useDispatch();
+  const [addedToCart, setAddedToCart] = useState(0);
 
   useEffect(() => {
     dispatch(fetchSingleProduct(productId));
@@ -18,6 +19,7 @@ const SingleProduct = () => {
     const productInfoId = e.target.productId.value;
     if (productInfoId) {
       dispatch(addItemToCart(productInfoId));
+      setAddedToCart(addedToCart + 1);
     }
   }
 
@@ -49,7 +51,14 @@ const SingleProduct = () => {
                 </option>
             ))}
           </select>
-          <button type="submit">Add To Cart</button>
+            <button type="submit">Add To Cart</button>
+            <p>
+              <small
+                className={addedToCart ? 'add-to-cart-confirmation' : ''} 
+              >
+                You added {addedToCart} items to cart.
+              </small>
+            </p>
         </form>
       </div>
     </div>
