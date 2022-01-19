@@ -29,8 +29,10 @@ const Checkout = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(confirmOrder(cart.id, cartTotal));
-        setConfirmedOrder(true);
+        if (cartTotal) {
+            dispatch(confirmOrder(cart.id, cartTotal));
+            setConfirmedOrder(true);
+        }
     }
 
     if (confirmedOrder) {
