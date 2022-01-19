@@ -1,14 +1,24 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-const Home = props => {
-  const username = useSelector(state => state.auth.username);
+const Home = () => {
+	const [loading, setLoading] = useState(true);
+	const username = useSelector((state) => state.auth.username);
 
-  return (
-    <div>
-      <h3>Welcome, {username}</h3>
-    </div>
-  )
-}
+	useEffect(() => {
+		setLoading(false);
+	});
+
+	if (loading) return <div>Loading...</div>;
+	return (
+		<div>
+			{username ? (
+				<h3>Welcome back {username}!</h3>
+			) : (
+				<h3>Welcome to Shoe Shopper!</h3>
+			)}
+		</div>
+	);
+};
 
 export default Home;

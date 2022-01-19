@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createProduct } from "../store/products";
 
 const CreateProduct = () => {
@@ -20,6 +20,8 @@ const CreateProduct = () => {
 	const types = ["basketball", "runner", "boot", "lifestyle", "other"];
 
   const dispatch = useDispatch();
+
+  const { isAdmin } = useSelector(state => state.auth);
 
 	const handleChange = (e) => {
 		e.preventDefault();
@@ -64,6 +66,7 @@ const CreateProduct = () => {
 		return input.length > 0 && input !== "init";
 	};
 
+  if (!isAdmin) return <div>You must be an admin user!</div>
 	return (
 		<div>
 			<h2>Create New Product</h2>

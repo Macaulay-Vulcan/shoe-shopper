@@ -1,6 +1,8 @@
 import axios from "axios";
 import history from "../history";
 
+const TOKEN = "token";
+
 //// ACTION TYPES ////
 
 const SET_PRODUCTS = "SET_PRODUCTS";
@@ -32,15 +34,26 @@ export const fetchProducts = () => {
 };
 
 export const createProduct = (product) => {
-	return async (dispatch) => {
-		try {
-			const { data: newProduct } = await axios.post("/api/products", product);
-			dispatch(_createProduct(newProduct));
-			history.push("/products");
-		} catch (error) {
-			console.error("🧑🏻‍💻 Error while creating product in thunk!");
-		}
-	};
+	const token = window.localStorage.getItem(TOKEN);
+	if (token) {
+		return async (dispatch) => {
+			try {
+				const { data: newProduct } = await axios.post(
+					"/api/products",
+					product,
+					{
+						headers: {
+							authorization: token,
+						},
+					}
+				);
+				dispatch(_createProduct(newProduct));
+				history.push(`/products/${newProduct.id}`);
+			} catch (error) {
+				console.error("🧑🏻‍💻 Error while creating product in thunk!");
+			}
+		};
+	}
 };
 
 //// SUB-REDUCER ////
@@ -54,4 +67,4 @@ export default function (state = [], action) {
 		default:
 			return state;
 	}
-};
+}
