@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { fetchSingleProduct } from '../store/singleProduct';
 import { addItemToCart } from '../store/cart';
+import { centsToDollars } from '../utility';
 
 const SingleProduct = () => {
   const { productId } = useParams();
   const { auth, product } = useSelector((state) => state);
+  const isLoggedIn = useSelector((state) => !!state.auth.id);
   const dispatch = useDispatch();
   const [addedToCart, setAddedToCart] = useState(0);
 
@@ -17,21 +19,21 @@ const SingleProduct = () => {
   function handleSubmit(e) {
     e.preventDefault();
     const productInfoId = e.target.productId.value;
-    if (productInfoId) {
+    if (productInfoId && isLoggedIn) {
       dispatch(addItemToCart(productInfoId));
       setAddedToCart(addedToCart + 1);
     }
   }
 
-  if (!product || !product.id)
-    return <div>PRODUCT DOESN'T EXIST!</div>;
+  if (!product.id)
+    return <div className="single-product-container">Loading</div>;
   return (
     <div className="single-product-container">
       <div className="single-product-left">
         <h2> {product.name}</h2>
         <img src={product.image} />
         <h4 className="price">
-          {'$' + (product.unit_price / 100).toFixed(2)}
+          {centsToDollars(product.unit_price)}
         </h4>
       </div>
       <div className="single-product-right">
@@ -43,7 +45,6 @@ const SingleProduct = () => {
             Select available size and color:
           </label>
           <select id="size-color" name="productId">
-            <option hidden="hidden">Size / Color</option>
             {product.productInfos
               .filter((prod) => prod.stock > 0)
               .sort((a, b) => Number(a.size) - Number(b.size))
@@ -54,9 +55,11 @@ const SingleProduct = () => {
               ))}
           </select>
           {auth.isAdmin && (
-            <Link to={`/products/${product.id}/create`}>
-              Edit Sizes & Colors
-            </Link>
+            <small>
+              <Link to={`/products/${product.id}/create`}>
+                Edit Sizes & Colors
+              </Link>
+            </small>
           )}
           <button type="submit">Add To Cart</button>
           <p>
@@ -65,7 +68,9 @@ const SingleProduct = () => {
                 addedToCart ? 'add-to-cart-confirmation' : ''
               }
             >
-              You added {addedToCart} items to cart.
+              {isLoggedIn
+                ? `You added ${addedToCart} item(s) to cart.`
+                : 'Please login or sign up to add items to your cart.'}
             </small>
           </p>
         </form>

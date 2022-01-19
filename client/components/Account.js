@@ -3,14 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 const Account = () => {
-    // const { userId } = useParams();
-    // const userInfo = useSelector(state => state.user)
-    // const dispatch = useDispatch();
-
-    // useEffect(() => {
-    //     dispatch(fetchUserInfo(userId))
-    // }, [])
-
     return (
         <div>
             <form>
