@@ -1,17 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setAuth, authenticate } from "../store";
+import { authenticate } from "../store";
 
 const AuthForm = ({ name, displayName }) => {
-	const { auth } = useSelector((state) => state);
 	const { error } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		// clears out error message upon switching between login & signup
-		return () => {
-			dispatch(setAuth({ ...auth, error: "" }));
-		};
+	useEffect(() => { // cleans up error upon switching between login and signup
+		if (error) error.response = null;
 	}, []);
 
 	const handleSubmit = (e) => {
