@@ -26,16 +26,17 @@ const Routes = () => {
 		<div className="content">
 			<Switch>
 				<Route exact path="/" component={Home} />
+        <Route exact path="/home" component={Home} />
 				{isLoggedIn && <Route exact path="/account" component={Account} />}
 				{isAdmin && <Route exact path="/users" component={Users} />}
 				{isAdmin && <Route exact path="/users/:userId" component={SingleUser} />}
 				{!isLoggedIn && <Route exact path="/login" component={() => Login} />}
 				{!isLoggedIn && <Route exact path="/signup" component={() => Signup} />}
 				<Route exact path="/products" component={Products} />
-				{isAdmin && <Route exact path="/products/create" component={CreateProduct} />}
+				<Route exact path="/products/create" component={CreateProduct} />
 				<Route exact path="/products/:productId" component={SingleProduct} />
 				<Route exact path="/order" component={() => <Cart userId={userId} />} />
-        <Route path="/checkout" component={Checkout} />
+        <Route exact path="/checkout" component={Checkout} />
 			</Switch>
 		</div>
 	);

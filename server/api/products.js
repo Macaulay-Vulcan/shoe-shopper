@@ -3,6 +3,8 @@ const Sequelize = require("sequelize");
 const {
 	models: { Product, ProductInfo },
 } = require("../db");
+const { requireToken, isAdmin } = require("./gateKeepingMiddleWare");
+
 module.exports = router;
 
 router.get("/", async (req, res, next) => {
@@ -37,7 +39,7 @@ router.get("/:id", async (req, res, next) => {
 	}
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", requireToken, isAdmin, async (req, res, next) => {
 	try {
 		const product = req.body;
 		if (product.image === "") delete product.image; // display default image if no link given
