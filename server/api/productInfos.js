@@ -32,6 +32,17 @@ router.get("/:id", async (req, res, next) => {
 	}
 });
 
+router.post("/", requireToken, isAdmin, async (req, res, next) => {
+	try {
+		const productInfo = req.body;
+		const newProductInfo = await ProductInfo.create(productInfo);
+		res.json(newProductInfo);
+	} catch (error) {
+		console.error("🧑🏻‍💻 Error while updating productInfo in router!");
+		next(error);
+	}
+});
+
 router.put("/:id", requireToken, isAdmin, async (req, res, next) => {
 	try {
 		const { productInfo } = req.body;
@@ -40,6 +51,16 @@ router.put("/:id", requireToken, isAdmin, async (req, res, next) => {
 		res.json(newProductInfo);
 	} catch (error) {
 		console.error("🧑🏻‍💻 Error while updating productInfo in router!");
+		next(error);
+	}
+});
+
+router.delete("/:id", requireToken, isAdmin, async (req, res, next) => {
+	try {
+		const productInfoToBeDeleted = await ProductInfo.findByPk(req.params.id);
+		await productInfoToBeDeleted.destroy();
+		res.json(productInfoToBeDeleted).status(201);
+	} catch (error) {
 		next(error);
 	}
 });
