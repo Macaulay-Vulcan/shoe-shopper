@@ -8,6 +8,7 @@ import { centsToDollars } from '../utility';
 const Products = () => {
   const { auth, products } = useSelector((state) => state);
   const [loading, setLoading] = useState(true);
+  const username = useSelector((state) => state.auth.username);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,10 +24,18 @@ const Products = () => {
     );
   return (
     <div>
-      <h3 className="products-title">PRODUCTS IN STOCK</h3>
+      <div>
       {auth.isAdmin && (
-        <Link to="/products/create">Create a New Product</Link>
+        <Link to="/products/create" className='create-product-link'>Create a New Product</Link>
       )}
+      <h3 className="products-title">
+      {username ? (
+				<h3>Welcome back {username}!</h3>
+			) : (
+				<h3>Welcome to Shoe Shopper!</h3>
+			)}
+      </h3>
+      </div>
       <div className="products-container">
         {products.map((prod) => (
           <div key={prod.id} className="product-tile">
@@ -39,13 +48,11 @@ const Products = () => {
                 <button>See Details</button>
               </p>
             </Link>
-            <div>
-              {auth.isAdmin && (
-                <Link to={`/products/edit/${prod.id}`}>
-                  Edit this product!
-                </Link>
-              )}
-            </div>
+            {auth.isAdmin && (
+              <Link to={`/products/edit/${prod.id}`} className='edit-product-link'>
+                  <small >Edit this product!</small>
+              </Link>
+            )}
           </div>
         ))}
       </div>

@@ -5,6 +5,7 @@ import {
   fetchSingleProduct,
   editSingleProduct,
 } from '../store/singleProduct';
+import { dollarsToCents } from '../utility';
 
 const EditProduct = () => {
   const { productId } = useParams();
@@ -65,6 +66,7 @@ const EditProduct = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (Object.values(errors).every((error) => error === '')) {
+      const unitPriceCents = dollarsToCents(unit_price);
       const product = {
         id: productId,
         name,
@@ -72,7 +74,7 @@ const EditProduct = () => {
         type,
         brand,
         image,
-        unit_price,
+        unit_price: unitPriceCents
       };
       dispatch(editSingleProduct(product));
     } else {
@@ -94,15 +96,15 @@ const EditProduct = () => {
     setType(product.type);
     setBrand(product.brand);
     setImage(product.image);
-    setUnitPrice(product.unit_price);
+    setUnitPrice(product.unit_price / 100);
   }, [product]);
 
   if (!product) {
-    return <div>PRODUCT DOESN'T EXIST!</div>;
+    return <div className='edit-product-container'>PRODUCT DOESN'T EXIST!</div>;
   }
 
   return (
-    <div>
+    <div className='edit-product-container'>
       <h2>Fill out form to edit Product :</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Name:</label>
@@ -159,7 +161,7 @@ const EditProduct = () => {
           value={unit_price || ''}
           type="number"
           min="0"
-          max="1000"
+          step="any"
         />{' '}
         {/* decide unit_price limit */}
         {isEmpty(errors.unit_price) && (
@@ -170,7 +172,7 @@ const EditProduct = () => {
           disabled={
             !Object.values(errors).every((error) => error === '')
           }
-        >
+         >
           Submit
         </button>
       </form>
