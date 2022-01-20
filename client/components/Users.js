@@ -20,23 +20,21 @@ const Users = () => {
 			</div>
 		);
 	return (
-		<div>
-			<h3 className="users-title">USERS</h3>
-			<div className="users-container">
-				{users.map((user) => (
-					<div key={user.id} className="user-tile">
-						<h4>Username: {user.username}</h4>
-						<p>User ID: {user.id}</p>
-						<p>Email: {user.email}</p>
-						<p>Address: {user.address}</p>
-						<Link to={`/users/${user.id}`}>
-							<p>
-								<button>See Details</button>
-							</p>
-						</Link>
-					</div>
-				))}
-			</div>
+		<div className="users-container">
+			{users.map((user) => (
+				<div key={user.id} className="user-tile">
+					<h4>Username: {user.username}</h4>
+					<p>User ID: {user.id}</p>
+					<p>Email: {user.email}</p>
+					<p>Address: {user.address}</p>
+					<p className="user-tile-bottom">
+					<Link to={`/users/${user.id}`}>
+						<button>See Details</button>
+					</Link>
+					</p>
+					<hr />
+				</div>
+			))}
 		</div>
 	);
 };

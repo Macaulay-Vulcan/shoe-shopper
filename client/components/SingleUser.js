@@ -17,7 +17,7 @@ const SingleUser = () => {
 
   if (!user) return <div className='single-user-container'>Loading</div>;
   return (
-    <div>
+    <div className='single-user-container'>
       <h2>Username: {user.username}</h2>
       <p>ID: {user.id}</p>
       <p>Email: {user.email}</p>

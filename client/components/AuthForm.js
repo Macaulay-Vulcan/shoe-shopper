@@ -25,7 +25,7 @@ const AuthForm = ({ name, displayName }) => {
 	};
 
 	return (
-		<div>
+		<div className="auth-container">
 			<form onSubmit={handleSubmit} name={name}>
 				<div>
 					<label htmlFor="username">
@@ -33,28 +33,28 @@ const AuthForm = ({ name, displayName }) => {
 					</label>
 					<input name="username" type="text" />
 				</div>
-				{name === "signup" && ( 
-					<div>
-						<div>
-							<label htmlFor="email">
-								<small>Email</small>
-							</label>
-							<input name="email" type="email" />
-						</div>
-						<div>
-							<label htmlFor="address">
-								<small>Address</small>
-							</label>
-							<input name="address" type="text" />
-						</div>
-					</div>
-				)}
 				<div>
 					<label htmlFor="password">
 						<small>Password</small>
 					</label>
 					<input name="password" type="password" />
 				</div>
+				{name === "signup" && ( 
+						<div>
+							<label htmlFor="email">
+								<small>Email</small>
+							</label>
+							<input name="email" type="email" />
+						</div>
+				)}
+				{name === "signup" && (
+						<div>
+							<label htmlFor="address">
+								<small>Address</small>
+							</label>
+							<input name="address" type="text" />
+						</div>
+				)}
 				<div>
 					<button type="submit">{displayName}</button>
 				</div>

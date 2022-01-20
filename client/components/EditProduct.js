@@ -100,11 +100,11 @@ const EditProduct = () => {
   }, [product]);
 
   if (!product) {
-    return <div>PRODUCT DOESN'T EXIST!</div>;
+    return <div className='edit-product-container'>PRODUCT DOESN'T EXIST!</div>;
   }
 
   return (
-    <div>
+    <div className='edit-product-container'>
       <h2>Fill out form to edit Product :</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Name:</label>
@@ -172,7 +172,7 @@ const EditProduct = () => {
           disabled={
             !Object.values(errors).every((error) => error === '')
           }
-        >
+         >
           Submit
         </button>
       </form>
