@@ -28,8 +28,7 @@ const Routes = () => {
   return (
     <div className="content">
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/home" component={Home} />
+        <Route exact path="/" component={Products} />
         {isLoggedIn && (
           <Route exact path="/account" component={Account} />
         )}

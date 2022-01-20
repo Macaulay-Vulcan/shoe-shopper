@@ -15,6 +15,7 @@ const _editSingleProduct = (updatedProduct) => ({
   type: EDIT_SINGLE_PRODUCT,
   updatedProduct,
 });
+
 export const fetchSingleProduct = (productId) => {
   return async (dispatch) => {
     try {
