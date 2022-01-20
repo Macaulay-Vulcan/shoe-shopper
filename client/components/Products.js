@@ -8,6 +8,7 @@ import { centsToDollars } from "../utility";
 const Products = () => {
 	const { auth, products } = useSelector((state) => state);
 	const [loading, setLoading] = useState(true);
+	const username = useSelector((state) => state.auth.username);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -15,10 +16,10 @@ const Products = () => {
 		setLoading(false);
 	}, []);
 
-  function handleDelete(e, productId) {
-    e.preventDefault();
-    dispatch(deleteProduct(productId));
-  }
+	function handleDelete(e, productId) {
+		e.preventDefault();
+		dispatch(deleteProduct(productId));
+	}
 
 	if (loading)
 		return (
@@ -28,8 +29,20 @@ const Products = () => {
 		);
 	return (
 		<div>
-			<h3 className="products-title">PRODUCTS IN STOCK</h3>
-			{auth.isAdmin && <Link to="/products/create">Create a New Product</Link>}
+			<div>
+				{auth.isAdmin && (
+					<Link to="/products/create" className="create-product-link">
+						Create a New Product
+					</Link>
+				)}
+				<div className="products-title">
+					{username ? (
+						<h3>Welcome back {username}!</h3>
+					) : (
+						<h3>Welcome to Shoe Shopper!</h3>
+					)}
+				</div>
+			</div>
 			<div className="products-container">
 				{products.map((prod) => (
 					<div key={prod.id} className="product-tile">
@@ -44,12 +57,25 @@ const Products = () => {
 						</Link>
 						<div>
 							{auth.isAdmin && (
-								<Link to={`/products/edit/${prod.id}`}>Edit this product!</Link>
+								<div>
+									<Link
+										to={`/products/edit/${prod.id}`}
+										className="edit-product-link"
+									>
+										<small>Edit this product!</small>
+									</Link>
+								</div>
 							)}
 							{auth.isAdmin && (
-								<button type="button" onClick={(e) => handleDelete(e, prod.id)}>
-									Delete Product
-								</button>
+								<div>
+									<a
+										className="edit-product-link"
+										type="button"
+										onClick={(e) => handleDelete(e, prod.id)}
+									>
+										<small>Delete this product!</small>
+									</a>
+								</div>
 							)}
 						</div>
 					</div>

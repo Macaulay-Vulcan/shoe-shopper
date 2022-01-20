@@ -32,18 +32,28 @@ body {
   justify-content: center;
 }
 
-nav a, nav a:visited {
+nav a, nav a:visited,
+.edit-product-link,
+.edit-product-link:visited,
+.create-product-link,
+.create-product-link:visited {
   text-decoration: none;
   color: black;
   margin: 0.5em;
 }
 
-nav a:hover {
+nav a:hover,
+.edit-product-link:hover,
+.create-product-link:hover {
   color: gray;
 }
 
 .content {
   padding: 1em 0.2em 0.5em 0.2em;
+}
+
+.edit-product-link:hover {
+  cursor: pointer;
 }
 
 .products-title {
@@ -149,7 +159,8 @@ nav a:hover {
   border-collapse: collapse;
 }
 
-.cart-checkout-button {
+.cart-checkout-button,
+.edit-product-container button {
   border: none;
   outline: 0;
   padding: 0.5rem;
@@ -191,7 +202,8 @@ nav a:hover {
 }
 
 .cart-remove-option:hover,
-.cart-quantity-button:hover {
+.cart-quantity-button:hover,
+.edit-product-container button:hover {
   opacity: 0.3;
   cursor: pointer;
 }
@@ -202,7 +214,12 @@ nav a:hover {
   padding: 0;
 }
 
-.checkout-container {
+.checkout-container,
+.users-container,
+.single-user-container,
+.edit-product-container,
+.account-info-container,
+.auth-container {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   font-family: arial;
   padding: 1em 1em 1em 1em;
@@ -211,11 +228,36 @@ nav a:hover {
   flex-direction: column;
 }
 
-.checkout-container form {
+.checkout-container form,
+.edit-product-container form,
+.account-info-container form,
+.auth-container form {
   display: flex;
   flex-direction: column;
 }
 
+.edit-product-container label {
+  margin-top: 0.25em;
+}
+
+.edit-product-container input {
+  margin-bottom: 0.25em;
+}
+
+
+
+.users-container button:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.user-tile {
+  margin: 1em 0 1em 0;
+}
+
+.user-tile-bottom {
+  margin-bottom: 0.5em;
+}
 
 img {
   width: 200px;
