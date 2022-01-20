@@ -50,7 +50,7 @@ router.post('/', requireToken, isAdmin, async (req, res, next) => {
   }
 });
 
-router.post('/:productId', async (req, res, next) => {
+router.post('/:productId', requireToken, isAdmin, async (req, res, next) => {
   try {
     const { color, stock, size } = req.body;
     const newProductInfo = await ProductInfo.create({
@@ -128,7 +128,7 @@ router.put(
   },
 );
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', requireToken, isAdmin, async (req, res, next) => {
   try {
     const productToBeDeleted = await Product.findByPk(req.params.id);
     await productToBeDeleted.destroy();

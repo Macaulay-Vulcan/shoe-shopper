@@ -56,7 +56,7 @@ router.post('/', async (req, res, next) => {
     const { productInfoId } = req.body;
 
     if (!user.id) {
-      const error = new Error("Only users add items to their own carts");
+      const error = new Error("Only users can add items to their own carts");
       error.status = 401;
       next(error);
     } else {
